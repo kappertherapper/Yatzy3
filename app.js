@@ -5,8 +5,7 @@ const app = express();
 app.set("view engine", "pug");
 
 app.use(express.urlencoded({extended: true}))
-app.use(express.static('/views'))
-app.use(express.static('./assets'))
+app.use(express.static('./assets')) //ændring maybe? ;)
 app.use(express.static("filer"));
 
 
