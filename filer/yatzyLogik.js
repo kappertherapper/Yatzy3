@@ -1,3 +1,15 @@
+const diceMap = new Map();
+
+for (let i = 1; i <= 5; i++) {
+  let temp = document.createElement("img");
+  temp.id = "diceImg" + i;
+  temp.className = "diceImg";
+  //temp.src= `https://www.media4math.com/sites/default/files/library_asset/images/MathClipArt--Single-Die-with-${i}-Showing.png`
+  temp.src = `Dices/blankDice.jpg`;
+  diceMap.set(temp, i);
+  diceDiv.appendChild(temp);
+}
+
 function incrementTurn() {
   if (turnCounter < 3) {
     turnCounter++;
@@ -9,7 +21,7 @@ function incrementTurn() {
   paragraphTurn.innerText = "Turn: " + turnCounter;
 }
 
-diceList.forEach((dice, index) => {
+Object.keys(diceMap).forEach((dice) => {
   dice.addEventListener("click", function () {
     // Skifter "held" klassen for at markere terningen som holdt/frigivet
     this.classList.toggle("held");

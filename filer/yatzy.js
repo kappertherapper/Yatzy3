@@ -11,20 +11,6 @@ document.body.appendChild(outerGrid);
 outerGrid.appendChild(diceDiv);
 outerGrid.appendChild(scoreDiv);
 
-let diceList = [];
-const diceMap = new Map();
-
-for (let i = 1; i <= 5; i++) {
-  let temp = document.createElement("img");
-  temp.id = "diceImg" + i;
-  temp.className = "diceImg";
-  //temp.src= `https://www.media4math.com/sites/default/files/library_asset/images/MathClipArt--Single-Die-with-${i}-Showing.png`
-  temp.src = `Dices/blankDice.jpg`;
-  diceList[i] = temp;
-  diceMap.set(temp, i);
-  diceDiv.appendChild(temp);
-}
-
 let turnCounter = 0;
 
 let paragraphTurn = document.createElement("p");
