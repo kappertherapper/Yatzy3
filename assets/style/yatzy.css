@@ -1,0 +1,78 @@
+#outer-grid{
+    display: grid;
+    padding: 5%;
+    grid-template-rows: 1fr 2fr;
+    row-gap: 3%;
+    background-image: linear-gradient(#f1f7cd, #fde7d1);
+}
+
+body{
+    display: grid;
+    grid-template-columns: 60%;
+    margin-left: 20%;
+}
+
+#score-div{
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 10px;
+}
+
+#dice-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 10px;
+}
+
+#outer-grid>div{
+    border: 1px solid #c5ce5b;
+}
+
+
+.diceImg{
+    height: 95%;
+    width: 95%;
+    padding: 2px;
+    border-radius: 13%;
+}
+
+#btnRoll{ /*Hvorfor har den her knap en venstre margin...*/
+    margin-left: 0px;
+    height: 40%;
+    align-self: center;
+    justify-self: end;
+}
+
+input{
+    width: 45%;
+    height: 60%;
+    align-self: center;
+}
+
+p{
+    display: inline;
+    margin: 0px;
+    align-self: center;
+}
+
+/* kode tilføjet til at kunne vise man holder terningerne */
+.diceImg {
+    cursor: pointer;
+    transition: all 0.3s ease; /* laver overgang */
+    
+}
+
+/* hover */
+.diceImg:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* skygge på terning */
+    transform: scale(1.1); /* terning bliver større ved hover */
+}
+
+/* Stil for "holdte" terninger */
+.held {
+    box-shadow: 0 0 15px rgba(36, 36, 36, 0.5); /* Tilføjer en rød skygge for yderligere at indikere "holdt" status */
+}
+
+
+
