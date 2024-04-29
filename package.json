@@ -1,0 +1,11 @@
+{
+  "name": "yatzy3",
+  "version": "1.0.0",
+  "description": "Projekt yatzy 3",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kasper, Nikolai, Victor, Lucas",
+  "license": "ISC"
+}
