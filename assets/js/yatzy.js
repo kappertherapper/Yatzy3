@@ -13,10 +13,21 @@ outerGrid.appendChild(scoreDiv);
 
 let turnCounter = 0;
 
+for (let i = 1; i <= 5; i++) {
+  let temp = document.createElement("img");
+  temp.id = "diceImg" + i;
+  temp.className = "diceImg";
+  //temp.src= `https://www.media4math.com/sites/default/files/library_asset/images/MathClipArt--Single-Die-with-${i}-Showing.png`
+  temp.src = `Dices/blankDice.jpg`;
+  diceDiv.appendChild(temp);
+}
+
 let paragraphTurn = document.createElement("p");
 paragraphTurn.id = "para-turn";
 paragraphTurn.innerText = "Turn: " + turnCounter;
 diceDiv.appendChild(paragraphTurn);
+
+
 
 for(let i = 0 ; i<3 ; i++){
   diceDiv.appendChild(document.createElement("p"))

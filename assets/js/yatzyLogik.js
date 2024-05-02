@@ -1,14 +1,3 @@
-const diceMap = new Map();
-
-for (let i = 1; i <= 5; i++) {
-  let temp = document.createElement("img");
-  temp.id = "diceImg" + i;
-  temp.className = "diceImg";
-  //temp.src= `https://www.media4math.com/sites/default/files/library_asset/images/MathClipArt--Single-Die-with-${i}-Showing.png`
-  temp.src = `Dices/blankDice.jpg`;
-  diceMap.set(temp, i);
-  diceDiv.appendChild(temp);
-}
 
 function incrementTurn() {
   if (turnCounter < 3) {
@@ -29,18 +18,38 @@ document.querySelectorAll(".diceImg").forEach((dice) => {
 });
 
 // Opdater din btnRoll event listener
-btnRoll.addEventListener("click", () => {
+btnRoll.addEventListener("click", async () => {
   if (turnCounter == 0) unholdAllDice(); // Hvis en person har valgt at holde de blanke dice, så unholdes de her
   // Opdaterer kun terninger, der ikke er holdt
+
+  const toBeRolled = [];
+
   document.querySelectorAll(".diceImg").forEach((dice, index) => {
+    //toBeRolled.push[!dice.classList.contains("held")];
     if (!dice.classList.contains("held")) {
-      // Hvis terningen ikke er holdt
-      let randomNum = Math.ceil(Math.random() * 6);
-      dice.src = `Dices/Dice-${randomNum}.png`; // Opdater terningens billede
-      diceMap.set(dice, randomNum);
-    }
+      toBeRolled.push(true);
+    }else toBeRolled.push(false);
   });
-  displayScores();
+  //displayScores();
+
+  const sendData = {list1: toBeRolled};
+  console.log("TSET: " + JSON.stringify(sendData));
+  console.log("TEST2: " + sendData.list1);
+
+  const scoresRaw = await fetch('http://localhost:6969/api/roll', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(sendData)
+  });
+  const userState = await scoresRaw.json();
+
+  console.log("TEST: " + JSON.stringify(userState));
+
+  updateDiceImgs(userState.dicevals);
+
+  updateScores(userState);
 
   if (turnCounter == 2) {
     //Tillad kast, hvis turnCounter er mindre end 3
@@ -49,153 +58,26 @@ btnRoll.addEventListener("click", () => {
   incrementTurn();
 });
 
-let diceSum = [0, 0, 0, 0, 0, 0];
-
-function sumDice() {
-  //Tæller frekvensen af terninge øjne
-  let values = diceMap.values();
-  for (i of values) {
-    diceSum[i - 1]++;
-  }
-}
-
-function onePair() {
-  const opInput = document.getElementById("One pair");
-  if (opInput.disabled) return;
-
-  let maxPair = 0;
-  for (let i = 0; i < 6; i++) {
-    if (diceSum[i] > 1) maxPair = i + 1;
-  }
-  opInput.value = maxPair * 2;
-}
-
-function twoPair() {
-  const tpInput = document.getElementById("Two pairs");
-  if (tpInput.disabled) return;
-
-  let maxPair1 = 0;
-  let maxPair2 = 0;
-
-  for (let i = 0; i < 6; i++) {
-    if (diceSum[i] > 1 && maxPair1 == 0) maxPair1 = i + 1;
-    else if (diceSum[i] > 1 && maxPair2 == 0) maxPair2 = i + 1;
-    else if (diceSum[i] > 3) {
-      maxPair1 = i + 1;
-      maxPair2 = i + 1;
+function updateDiceImgs(diceValues){
+  document.querySelectorAll(".diceImg").forEach((dice, index) => {
+    if (!dice.classList.contains("held")) {
+      dice.src = `Dices/Dice-${diceValues[index]}.png`;
     }
-  }
-
-  tpInput.value = maxPair1 * 2 + maxPair2 * 2;
+  });
 }
 
-function threeSame() {
-  const tsInput = document.getElementById("Three same");
-  if (tsInput.disabled) return;
+function updateScores(userState){
+    let scoreServer = Object.values(userState);
 
-  tsInput.value = 0;
-  for (let i = 0; i < 6; i++) {
-    if (diceSum[i] > 2) tsInput.value = (i + 1) * 3;
-  }
+    document.querySelectorAll(".inputs").forEach((input1, index)=>{
+        if(!input1.disabled) input1.value= scoreServer[index+1]; //plus 2 er fra scorCalc's userState
+    });
 }
 
-function fourSame() {
-  const fsInput = document.getElementById("Four same");
-  if (fsInput.disabled) return;
-
-  fsInput.value = 0;
-  for (let i = 0; i < 6; i++) {
-    if (diceSum[i] > 3) fsInput.value = (i + 1) * 4;
-  }
-}
-
-function yatzy() {
-  const yInput = document.getElementById("Yatzy");
-  if (yInput.disabled) return;
-
-  yInput.value = 0;
-  for (let i = 0; i < 6; i++) {
-    if (diceSum[i] > 4) yInput.value = (i + 1) * 5;
-  }
-}
-
-function taxEvasion() {
-  for (let i = 1; i <= 6; i++) {
-    let tempInput = document.getElementById(`${i}-s`);
-    if (tempInput.disabled) continue;
-
-    tempInput.value = diceSum[i - 1] * i;
-  }
-}
-
-function chance() {
-  const cInput = document.getElementById("Chance");
-  if (cInput.disabled) return;
-
-  let sumChance = 0;
-  for (let i = 0; i < 6; i++) {
-    sumChance += diceSum[i] * (i + 1);
-  }
-
-  cInput.value = sumChance;
-}
-
-function fullHouse() {
-  const fhInput = document.getElementById("Full house");
-  if (fhInput.disabled) return;
-
-  let onePair = 0;
-  let threeSame = 0;
-
-  for (let i = 0; i < 6; i++) {
-    if (diceSum[i] == 3) {
-      threeSame = i + 1;
-    }
-    if (diceSum[i] == 2) {
-      onePair = i + 1;
-    }
-  }
-
-  fhInput.value = 0;
-  if (threeSame != 0 && onePair != 0) {
-    fhInput.value = onePair * 2 + threeSame * 3;
-  }
-}
-
-function smallStraight() {
-  const ssInput = document.getElementById("Small straight");
-  if (ssInput.disabled) return;
-
-  let temp = true;
-
-  for (let i = 0; i < 5; i++) {
-    if (diceSum[i] != 1) {
-      temp = false;
-    }
-  }
-
-  ssInput.value = 0;
-  if (temp) {
-    ssInput.value = 15;
-  }
-}
-
-function largeStraight() {
-  const lsInput = document.getElementById("Large straight");
-  if (lsInput.disabled) return;
-
-  let temp = true;
-
-  for (let i = 1; i < 6; i++) {
-    if (diceSum[i] != 1) {
-      temp = false;
-    }
-  }
-
-  lsInput.value = 0;
-  if (temp) {
-    lsInput.value = 20;
-  }
+function resetScores(){
+  document.querySelectorAll(".inputs").forEach((input1, index)=>{
+    if(!input1.disabled) input1.value= 0;
+});
 }
 
 const input = document.querySelectorAll("input");
@@ -216,7 +98,7 @@ input.forEach((element) => {
         Number(element.value) + Number(numbertemp);
       element.disabled = true;
       element.style.backgroundColor = "lightgrey";
-      btnRoll.click();
+      //btnRoll.click();
       btnRoll.disabled = "";
       turnCounter = 0;
       paragraphTurn.innerText = "Turn: " + turnCounter;
@@ -227,39 +109,6 @@ input.forEach((element) => {
     }
   });
 });
-
-function displayScores() {
-  sumDice();
-  onePair();
-  twoPair();
-  taxEvasion();
-  threeSame();
-  fourSame();
-  yatzy();
-  chance();
-  fullHouse();
-  smallStraight();
-  largeStraight();
-  updateSum();
-
-  diceSum = [0, 0, 0, 0, 0, 0];
-}
-
-function resetScores() {
-  diceSum = [0, 0, 0, 0, 0, 0];
-
-  onePair();
-  twoPair();
-  taxEvasion();
-  threeSame();
-  fourSame();
-  yatzy();
-  chance();
-  fullHouse();
-  smallStraight();
-  largeStraight();
-  updateSum();
-}
 
 function updateSum() {
   let inputSums = document.querySelectorAll("input");
