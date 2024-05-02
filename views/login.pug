@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title Login Side
+  body
+    h1 Indtast dit brugernavn
+    form(action="/login", method="POST")
+      label(for="username") Brugernavn:
+      input(type="text", id="username", name="username")
+      br
+      button(type="submit") Log ind
