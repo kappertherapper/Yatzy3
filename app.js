@@ -24,7 +24,7 @@ app.post("/auth", async (req, res) => {
     await addPlayer({name: name, loggedIn: true})
       req.session.loggedIn = true,
       req.session.name = name;
-      res.redirect('/');
+      res.redirect('/lobby');
       res.end();
   }else{
     if(await loginAllowed(name)){
