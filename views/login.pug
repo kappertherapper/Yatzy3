@@ -9,7 +9,7 @@ html
         .logo
           img(class="picture" src="logo/png/logo-no-background.png", alt="Logo")
         h1 Velkommen til Yatzy!
-        form(action="/login", method="POST")
+        form(action="/auth", method="POST")
           .input-container
-            input(type="text", id="username", name="username", placeholder="Indtast dit brugernavn", required)
+            input(type="text", id="name", name="name", placeholder="Indtast dit brugernavn", required)
           button(type="submit") Start!
