@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
 
