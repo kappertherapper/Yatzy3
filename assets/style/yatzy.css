@@ -11,6 +11,7 @@ body{
     display: grid;
     grid-template-columns: 60%;
     margin-left: 20%;
+    background-color: #6575A8;
 }
 
 #score-div{
