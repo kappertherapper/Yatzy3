@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn} from 'playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn} from './playerDB.js'
 
 
 const app = express();
