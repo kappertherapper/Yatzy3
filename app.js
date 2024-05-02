@@ -52,6 +52,17 @@ app.get("/lobby", (req, res) => {
   res.render('lobby')
 }) 
 
+app.post("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Fejl ved logud:', err);
+    } else {
+      console.log('Bruger logget ud');
+      res.redirect('/login');
+    }
+  });
+});
+
 // app.post("/login)", (reg, res) => {
 //   const {username} = reg.body;
 
