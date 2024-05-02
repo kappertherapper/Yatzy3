@@ -1,9 +1,14 @@
 //TODO
 /*
  1. Adskil logik og pug
- 2. Hardcode 2 spillere
- 3. Turbaseret 
- 4. Lav forside og oprettelse
+ 2. Turbaseret 
+ 3. Lav countdown på spilstart når nummer 2 spiller joiner
+ 4. Lav startknap som videresender alle spillere til spillet fra lobbyen 
+ 5. 
  
+DONE 
+Lav forside og oprettelse (✅)
+Hardcode 2 spillere (✅)
+Lav login(✅)
 
 */
