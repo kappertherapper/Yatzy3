@@ -4,13 +4,13 @@
     grid-template-rows: 1fr 2fr;
     row-gap: 3%;
     background-image: linear-gradient(#f1f7cd, #fde7d1);
+    margin: auto;
+    max-width: 40%;
+    max-height: 100%;
 }
 
 body{
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    display: grid;
-    grid-template-columns: 60%;
-    margin-left: 20%;
     background-color: #6575A8;
 }
 
