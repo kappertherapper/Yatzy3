@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn} from './playerDB.js'
 
 
 const app = express();
@@ -23,14 +23,14 @@ app.post("/auth", async (req, res) => {
     await addPlayer({name: name, loggedIn: true})
       req.session.loggedIn = true,
       req.session.name = name;
-      res.redirect('/lobby');
+      res.redirect('/lobby/:name');
       res.end();
   }else{
     if(await loginAllowed(name)){
       req.session.loggedIn = true,
       req.session.name = name;
       await logPlayerIn(name);
-      res.redirect('/lobby');
+      res.redirect('/lobby/:name');
       res.end();
     }else {
       res.redirect('/login')
@@ -47,9 +47,17 @@ app.get("/login", (req, res) => {
   res.render('login')
 })
 
+/*
 app.get("/lobby", (req, res) => {
   res.render('lobby')
 }) 
+*/
+
+app.get("/lobby/:name", async(req, res) => {
+  const name = req.session.name
+  const users = await readLoggedIn();
+  res.render('lobby', {name: name, users: users})
+})
 
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {

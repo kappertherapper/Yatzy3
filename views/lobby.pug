@@ -2,13 +2,14 @@ doctype html
 html
   head
     title Lobby Side
-    link(rel="stylesheet", href="style/lobby.css")
+    link(rel="stylesheet", href="/style/lobby.css")
   body
     .container
       .lobby-box
-        h1 Velkommen til lobbyen, #{username}!
-        ul
-          //each user in users
-            li #{user}
-        form(action="/logout", method="POST")
-          button(type="submit") Log ud
+        if name
+          h1 Velkommen til lobbyen, #{name}!
+           ul
+            each user in users
+               li #{user.name}
+           form(action="/logout", method="POST")
+              button(type="submit") Log ud

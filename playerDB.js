@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs, { read } from 'fs';
 
 async function readFile() {
     let fileContent = await fs.promises.readFile("players.json", {encoding: 'utf-8'});
@@ -58,4 +58,10 @@ async function logEveryoneOut(){
     });
 }
 
-export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut}
+async function readLoggedIn() {
+    const jsonData = await readFile();
+    let loggedInUsers = jsonData.filter(user => user.loggedIn)
+    return loggedInUsers;
+}
+
+export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn}
