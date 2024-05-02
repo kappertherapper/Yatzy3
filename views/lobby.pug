@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title Lobby Side
+    link(rel="stylesheet", href="style/lobby.css")
+  body
+    .container
+      .lobby-box
+        h1 Velkommen til lobbyen, #{username}!
+        ul
+          //each user in users
+            li #{user}
+        form(action="/logout", method="POST")
+          button(type="submit") Log ud
