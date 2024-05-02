@@ -21,7 +21,7 @@ function incrementTurn() {
   paragraphTurn.innerText = "Turn: " + turnCounter;
 }
 
-Object.keys(diceMap).forEach((dice) => {
+document.querySelectorAll(".diceImg").forEach((dice) => {
   dice.addEventListener("click", function () {
     // Skifter "held" klassen for at markere terningen som holdt/frigivet
     this.classList.toggle("held");

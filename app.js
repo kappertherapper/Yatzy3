@@ -16,7 +16,6 @@ app.use(session({
   resave: true
 }));
 
-await logEveryoneOut(); //Serveren starter, alle logges ud...
 
 app.post("/auth", async (req, res) => {
   const name = req.body.name;
@@ -73,7 +72,8 @@ app.post("/logout", (req, res) => {
 
 // })
 
+//await logEveryoneOut(); //Serveren starter, alle logges ud...
 
-app.listen(6969, () => {
+app.listen(6969, await logEveryoneOut(), () => {
   console.log("Lytter på port 6969.. ");
 });
