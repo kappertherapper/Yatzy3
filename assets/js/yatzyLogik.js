@@ -25,10 +25,7 @@ btnRoll.addEventListener("click", async () => {
   const toBeRolled = [];
 
   document.querySelectorAll(".diceImg").forEach((dice, index) => {
-    //toBeRolled.push[!dice.classList.contains("held")];
-    if (!dice.classList.contains("held")) {
-      toBeRolled.push(true);
-    }else toBeRolled.push(false);
+   toBeRolled[index] = !dice.classList.contains("held");
   });
   //displayScores();
 

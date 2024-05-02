@@ -12,9 +12,9 @@ let scoreVals = {
   twoPairs:  -1,
   threeSame:  -1,
   fourSame:  -1,
+  fullHouse:  -1,
   smallStraight:  -1,
   largeStraight:  -1,
-  fullHouse:  -1,
   chance:  -1,
   yatzy:  -1
   }
@@ -72,7 +72,8 @@ function twoPair() {
     }
   }
 
-  scoreVals.twoPairs = maxPair1 * 2 + maxPair2 * 2;
+  scoreVals.twoPairs=0;
+  if(maxPair1!=0 && maxPair2!=0) scoreVals.twoPairs = maxPair1 * 2 + maxPair2 * 2;
 }
 
 function threeSame() {
