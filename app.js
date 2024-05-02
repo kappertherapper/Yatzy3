@@ -31,7 +31,7 @@ app.post("/auth", async (req, res) => {
       req.session.loggedIn = true,
       req.session.name = name;
       await logPlayerIn(name);
-      res.redirect('/');
+      res.redirect('/lobby');
       res.end();
     }else {
       res.redirect('/login')
