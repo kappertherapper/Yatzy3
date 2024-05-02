@@ -1,7 +1,8 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut} from './playerDB.js'
 
+logEveryoneOut(); //Serveren starter, alle logges ud...
 
 const app = express();
 app.set("view engine", "pug");

@@ -43,8 +43,19 @@ async function logPlayerIn(name){
     await fs.promises.writeFile("players.json", existingPlayer, {
       encoding: "utf-8",
     });
-
-
 }
 
-export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn}
+async function logEveryoneOut(){
+    let players = readFile();
+
+    for(let player of players){
+        player.loggedIn = false;
+    }
+
+    existingPlayer = JSON.stringify(players);
+    await fs.promises.writeFile("players.json", existingPlayer, {
+      encoding: "utf-8",
+    });
+}
+
+export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut}
