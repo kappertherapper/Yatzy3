@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut} from './playerDB.js'
+import roll from './api/rollAndCalc.js'
 
 
 const app = express();
@@ -8,6 +9,7 @@ app.set("view engine", "pug");
 
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('./assets')) //ændring maybe? ;)
+app.use(express.json());
 
 
 app.use(session({
@@ -37,6 +39,23 @@ app.post("/auth", async (req, res) => {
     }
   }
 })
+
+app.post("/api/roll", (req, res)=>{
+  let toBeRolled =  req.body.list1; //noget med f.eks. [true, false, true, false, false]
+  console.log("REQ BODY: " + req.body.list1);
+  
+  let userState = roll(toBeRolled);
+
+  res.send(userState); //håber den konverter userState objektet til JSON :D
+});
+
+app.get("/api/alc/fieldPoint:", (req, res)=>{
+  //let params = req.params.fieldPoint;
+  //split params på mellem
+
+  //isPlayerOneTurn = !isPlayerOneTurn; //flip til den anden spillers tur
+});
+
 
 
 app.get("/", (req, res) => {
