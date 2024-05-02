@@ -138,7 +138,7 @@ function updateBonus() {
 
 function blankDiceDisplay() {
   document.querySelectorAll(".diceImg").forEach((dice) => {
-    dice.src = `Dices/blankDice.jpg`;
+    dice.src = `Dices/blankDice.png`;
   });
 }
 

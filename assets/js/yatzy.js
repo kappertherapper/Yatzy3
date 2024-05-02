@@ -18,7 +18,7 @@ for (let i = 1; i <= 5; i++) {
   temp.id = "diceImg" + i;
   temp.className = "diceImg";
   //temp.src= `https://www.media4math.com/sites/default/files/library_asset/images/MathClipArt--Single-Die-with-${i}-Showing.png`
-  temp.src = `Dices/blankDice.jpg`;
+  temp.src = `Dices/blankDice.png`;
   diceDiv.appendChild(temp);
 }
 
