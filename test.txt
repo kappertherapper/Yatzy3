@@ -1,14 +1,14 @@
 //TODO
 /*
- 1. Adskil logik og pug
- 2. Turbaseret 
- 3. Lav countdown på spilstart når nummer 2 spiller joiner
- 4. Lav startknap som videresender alle spillere til spillet fra lobbyen 
- 5. 
+ 1. Turbaseret 
+ 2. Lav countdown på spilstart når nummer 2 spiller joiner
+ 3. Lav startknap som videresender alle spillere til spillet fra lobbyen 
+ 4. Max antal spillere på 5
  
 DONE 
 Lav forside og oprettelse (✅)
 Hardcode 2 spillere (✅)
 Lav login(✅)
+Terning rul og udregning gøres på serverside(✅)
 
 */
