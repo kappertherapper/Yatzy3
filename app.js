@@ -2,7 +2,6 @@ import express from 'express';
 import session from 'express-session';
 import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut} from './playerDB.js'
 
-logEveryoneOut(); //Serveren starter, alle logges ud...
 
 const app = express();
 app.set("view engine", "pug");
@@ -16,6 +15,8 @@ app.use(session({
   saveUninitialized: true,
   resave: true
 }));
+
+await logEveryoneOut(); //Serveren starter, alle logges ud...
 
 app.post("/auth", async (req, res) => {
   const name = req.body.name;

@@ -35,24 +35,24 @@ async function loginAllowed(name) {
 
 //Assumes login allowed
 async function logPlayerIn(name){
-    let players = readFile();
+    let players = await readFile();
     for (let player of players) {
       if (player.name == name) player.loggedIn=true;
     }
-    existingPlayer = JSON.stringify(players);
+    let existingPlayer = JSON.stringify(players);
     await fs.promises.writeFile("players.json", existingPlayer, {
       encoding: "utf-8",
     });
 }
 
 async function logEveryoneOut(){
-    let players = readFile();
+    let players = await readFile();
 
     for(let player of players){
         player.loggedIn = false;
     }
 
-    existingPlayer = JSON.stringify(players);
+   let existingPlayer = JSON.stringify(players);
     await fs.promises.writeFile("players.json", existingPlayer, {
       encoding: "utf-8",
     });
