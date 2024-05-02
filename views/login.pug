@@ -1,11 +1,15 @@
 doctype html
 html
   head
-    title Login Side
+    title Yatzy login
+    link(rel="stylesheet", href="/style/login.css")
   body
-    h1 Indtast dit brugernavn
-    form(action="/login", method="POST")
-      label(for="username") Brugernavn:
-      input(type="text", id="username", name="username")
-      br
-      button(type="submit") Log ind
+    .container
+      .login-box
+        .logo
+          img(class="picture" src="logo/png/logo-no-background.png", alt="Logo")
+        h1 Velkommen til Yatzy!
+        form(action="/login", method="POST")
+          .input-container
+            input(type="text", id="username", name="username", placeholder="Indtast dit brugernavn", required)
+          button(type="submit") Start!

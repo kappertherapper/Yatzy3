@@ -13,6 +13,10 @@ app.get("/", (req, res) => {
     res.render('yatzy')
 });
 
+app.get("/login", (reg, res) => {
+  res.render('login')
+})
+
 
 app.listen(6969, () => {
   console.log("Lytter på port 6969.. ");
