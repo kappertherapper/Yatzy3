@@ -2,6 +2,7 @@ import fs from 'fs';
 
 async function readFile() {
     let fileContent = await fs.promises.readFile("players.json", {encoding: 'utf-8'});
+    //console.log(fileContent);
     return JSON.parse(fileContent);
 }
 
@@ -12,8 +13,8 @@ async function addPlayer(playerObject) {
     await fs.promises.writeFile("players.json", existingPlayer, {encoding: "utf-8"})
 }
 
-function doesPlayerExist(name) {
-    let players = readFile()
+async function doesPlayerExist(name) {
+    let players = await readFile()
     for(let player of players) {
         if(player.name == name) {
             return true;
@@ -22,8 +23,8 @@ function doesPlayerExist(name) {
     return false;
 }
 
-function loginAllowed(name) {
-    let players = readFile();
+async function loginAllowed(name) {
+    let players = await readFile();
     for(let player of players) {
         if(player.name == name && !player.loggedIn) {
             return true;
@@ -42,8 +43,19 @@ async function logPlayerIn(name){
     await fs.promises.writeFile("players.json", existingPlayer, {
       encoding: "utf-8",
     });
-
-
 }
 
-export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn}
+async function logEveryoneOut(){
+    let players = readFile();
+
+    for(let player of players){
+        player.loggedIn = false;
+    }
+
+    existingPlayer = JSON.stringify(players);
+    await fs.promises.writeFile("players.json", existingPlayer, {
+      encoding: "utf-8",
+    });
+}
+
+export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut}

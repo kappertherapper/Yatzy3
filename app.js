@@ -1,7 +1,8 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn} from 'playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut} from './playerDB.js'
 
+logEveryoneOut(); //Serveren starter, alle logges ud...
 
 const app = express();
 app.set("view engine", "pug");
@@ -16,19 +17,19 @@ app.use(session({
   resave: true
 }));
 
-app.post("/auth", (req, res) => {
+app.post("/auth", async (req, res) => {
   const name = req.body.name;
-  if(!doesPlayerExist(name)){
-    addPlayer({name: name, loggedIn: true})
+  if(! await doesPlayerExist(name)){
+    await addPlayer({name: name, loggedIn: true})
       req.session.loggedIn = true,
       req.session.name = name;
       res.redirect('/');
       res.end();
   }else{
-    if(loginAllowed(name)){
+    if(await loginAllowed(name)){
       req.session.loggedIn = true,
       req.session.name = name;
-      logPlayerIn(name);
+      await logPlayerIn(name);
       res.redirect('/');
       res.end();
     }else {
