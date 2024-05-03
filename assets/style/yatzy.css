@@ -35,8 +35,6 @@ body{
 .diceImg{
     height: 95%;
     width: 95%;
-    padding: 2px;
-    border-radius: 13%;
 }
 
 #btnRoll{ /*Hvorfor har den her knap en venstre margin...*/
