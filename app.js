@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
 
@@ -22,7 +22,7 @@ app.use(session({
 app.post("/auth", async (req, res) => {
   const name = req.body.name;
   if(! await doesPlayerExist(name)){
-    await addPlayer({name: name, loggedIn: true})
+    await addPlayer(createPlayerObject(name))
       req.session.loggedIn = true,
       req.session.name = name;
       res.redirect('/lobby/' + name);

@@ -70,9 +70,7 @@ async function readLoggedIn() {
 
 
 async function initPlayersJSON(){
-    let newFileCreated = false;
-
-    await fs.promises.readFile("players.json", {encoding: 'utf-8'})
+   await fs.promises.readFile("players.json", {encoding: 'utf-8'})
     .then((...args)=>{
         console.log("players.json already initialized.");
     })
@@ -80,16 +78,10 @@ async function initPlayersJSON(){
         let defaultPlayers = [createPlayerObject("Player One"), createPlayerObject("Player Two")]
 
         fs.writeFile("players.json", JSON.stringify(defaultPlayers), (err)=>{
-            if(err) {
-                console.log(err);
-            }else {
-            console.log("players.json initialized");
-            newFileCreated = true;
-            }
+            if(err) console.log(err);
+            else console.log("players.json initialized");
         })
-        
     })
-
 }
 
-export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON}
+export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject}
