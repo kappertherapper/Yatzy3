@@ -6,6 +6,10 @@ async function readFile() {
     return JSON.parse(fileContent);
 }
 
+function createPlayerObject(name){
+    return {name: name, loggedIn: false};
+}
+
 async function addPlayer(playerObject) {
     let existingPlayer = await readFile();
     existingPlayer.push(playerObject);
@@ -64,48 +68,28 @@ async function readLoggedIn() {
     return loggedInUsers;
 }
 
-async function initPlayersJSON2(){
-    let wasCreated = false;
-
-    await fs.promises.readFile("players.json", {encoding: 'utf-8'}, (err, data)=>{
-        if(err){
-            console.log("The error" + err);
-
-            wasCreated = true;
-
-            fs.open('mynewfile2.txt', 'w', function (err2, file) {
-                if (err2) throw err;
-                if(file){
-                    
-                }
-              }); 
-
-            console.log("Initialized players.json");
-        }else {
-            console.log("players.json found");
-        }
-    });
-
-    if(wasCreated){
-        addPlayer({name: "Player One", loggedIn: false});
-        addPlayer({name: "Player Two", loggedIn: false});
-    }
-}
 
 async function initPlayersJSON(){
+    let newFileCreated = false;
+
     await fs.promises.readFile("players.json", {encoding: 'utf-8'})
     .then((...args)=>{
         console.log("players.json already initialized.");
     })
     .catch((...args)=>{
-        fs.write("players.json", '[{name: "Player One", loggedIn: false}, {name: "Player Two", loggedIn: false}]', (err)=>{
-            if(err) console.log(err);
-            console.log("players.json");
+        let defaultPlayers = [createPlayerObject("Player One"), createPlayerObject("Player Two")]
+
+        fs.writeFile("players.json", JSON.stringify(defaultPlayers), (err)=>{
+            if(err) {
+                console.log(err);
+            }else {
+            console.log("players.json initialized");
+            newFileCreated = true;
+            }
         })
         
     })
 
-    
 }
 
 export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON}
