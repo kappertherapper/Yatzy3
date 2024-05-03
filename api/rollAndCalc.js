@@ -20,8 +20,6 @@ let scoreVals = {
   }
 
 function roll(toBeRolled){ //toBeRolled, holde styr på held terninger hos client
-    console.log("TEST; " + JSON.stringify(scoreVals));
-
     for(let i = 0 ;  i < 5 ; i++){
         if(toBeRolled[i]) scoreVals.dicevals[i] = Math.ceil(Math.random() * 6);
     }

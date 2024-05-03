@@ -25,6 +25,7 @@ app.post("/auth", async (req, res) => {
     await addPlayer(createPlayerObject(name))
       req.session.loggedIn = true,
       req.session.name = name;
+      await logPlayerIn(name);
       res.redirect('/lobby/' + name);
       res.end();
   }else{
@@ -42,11 +43,10 @@ app.post("/auth", async (req, res) => {
 
 app.post("/api/roll", (req, res)=>{
   let toBeRolled =  req.body.list1; //noget med f.eks. [true, false, true, false, false]
-  console.log("REQ BODY: " + req.body.list1);
   
   let userState = roll(toBeRolled);
 
-  res.send(userState); //håber den konverter userState objektet til JSON :D
+  res.send(userState);
 });
 
 app.get("/api/alc/fieldPoint:", (req, res)=>{
