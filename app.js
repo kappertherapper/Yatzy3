@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
 
@@ -101,6 +101,6 @@ app.post("/logout", (req, res) => {
 
 //await logEveryoneOut(); //Serveren starter, alle logges ud...
 
-app.listen(6969, await logEveryoneOut(), () => {
+app.listen(6969, await initPlayersJSON(), await logEveryoneOut(), () => {
   console.log("Lytter på port 6969.. ");
 });
