@@ -39,8 +39,10 @@ async function updatePlayerScore(name, field, point, total){
         if(currentDB[i].name==name) playerIndex = i;
     }
 
-    currentDB[playerIndex].scoreVals.setAttribute(field, point);
-    currentDB[playerIndex].scoreVals.setAttribute("total", total);
+    console.log("Test204: " + field + " " + point);
+
+    Object.defineProperty(currentDB[playerIndex].scoreVals, field, {value: point, writable: true});
+    Object.defineProperty(currentDB[playerIndex].scoreVals, "total", {value: total, writable: true});
 
     let existingPlayer = JSON.stringify(currentDB);
     await fs.promises.writeFile("players.json", existingPlayer, {encoding: "utf-8"});

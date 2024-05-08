@@ -77,7 +77,7 @@ function resetScores(){
 });
 }
 
-const input = document.querySelectorAll("input");
+const input = document.querySelectorAll(".inputs");
 input.forEach((element, index) => {
   element.addEventListener("click", async () => {
     if (
@@ -120,9 +120,7 @@ input.forEach((element, index) => {
 
         console.log("Test45; " + index + " " + translationTable[index]);
 
-      await fetch(`http://localhost:6969/api/alloc/${numbertemp}%20${translationTable[index]}%20${totalVal}`, {
-        method: 'GET'
-      });
+      await fetch(`http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`);
 
       resetScores();
       blankDiceDisplay();

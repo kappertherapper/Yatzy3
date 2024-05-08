@@ -57,7 +57,7 @@ app.post("/auth", async (req, res) => {
     } else {
       res.redirect('/login');
     }
-  }
+  } 
 });
 
 app.post("/api/roll", (req, res) => {
@@ -66,11 +66,11 @@ app.post("/api/roll", (req, res) => {
   res.send(userState);
 });
 
-app.get("/api/allocPoints/data:", async (req, res)=>{
-  let splitData = req.data.split(" "); //tænker tre data med mellemrum imellem, point, felt, total
-  let points = splitData[0];
+app.get("/api/allocPoints/:data", async (req, res)=>{
+  let splitData = req.params.data.split("-"); //tænker tre data med '-' imellem, point, felt, total
+  let points = Number(splitData[0]);
   let field = splitData[1];
-  let total = splitData[2];
+  let total = Number(splitData[2]);
 
   await updatePlayerScore("Player One", field, points, total); //req.session.name???
 });
