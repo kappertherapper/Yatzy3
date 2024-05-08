@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount, updatePlayerScore} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount, updatePlayerScore, readFile} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
 
@@ -120,6 +120,11 @@ app.get("/lobby/:name", async (req, res) => {
  app.get("/api/playerCount", async (req, res) => {
   const users = await readLoggedIn();
    res.json({ playerCount: users.length });
+});
+
+app.get("/api/getPlayers", async (req, res)=>{
+  const players = await readFile();
+  res.send(players);
 });
 
 

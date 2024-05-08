@@ -120,6 +120,7 @@ document.querySelectorAll("input").forEach((e) => {
 });
 
 //Scoreboard
+async function createScoreBoard(){
 let scoreboardDiv = document.createElement("div");
 scoreboardDiv.id = "scoreboard-div";
 
@@ -128,12 +129,19 @@ scoreboardHeading.id = "scoreboard-heading";
 scoreboardHeading.textContent = "Scoreboard";
 scoreboardDiv.appendChild(scoreboardHeading);
 
-let players = ["Player 1", "Player 2", "Player 3"]; 
+let players = await fetch("http://localhost:6969/api/getPlayers");
+players = await players.json();
+
+console.log("TESt34234: " + JSON.stringify(players));
+
 players.forEach((player) => {
     let playerScore = document.createElement("p");
-    playerScore.textContent = player + ": 0"; // rettes til endelige point
+    playerScore.textContent = player.name + ": " + player.scoreVals.total;
     scoreboardDiv.appendChild(playerScore);
     scoreboardDiv.appendChild(document.createElement("br"));
 });
 
 document.body.appendChild(scoreboardDiv);
+}
+
+document.addEventListener("DOMContentLoaded", async()=> await createScoreBoard());
