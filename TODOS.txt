@@ -1,8 +1,7 @@
 --------------------- TODO --------------------- 
 
  1. Turbaseret 
- 1. Players score i JSON fil, med alle felter, som opdateres undervejs
- 2. Lav countdown på spilstart når nummer 2 spiller joiner
+ 2. Players score i JSON fil, med alle felter, som opdateres undervejs
  3. Lav startknap som videresender alle spillere til spillet fra lobbyen 
  4. Max antal spillere på 5
  5. laves Dices til images og evt. flytte logo over i 
@@ -15,3 +14,4 @@ Hardcode 2 spillere (✅)
 Lav login(✅)
 Terning rul og udregning gøres på serverside(✅)
 En slags player " simple factory" (✅)
+Lave en timer (✅)
