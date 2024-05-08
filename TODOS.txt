@@ -3,7 +3,7 @@
  1. Turbaseret 
  2. Players score i JSON fil, med alle felter, som opdateres undervejs
  3. Lav startknap som videresender alle spillere til spillet fra lobbyen 
- 4. Max antal spillere på 5
+ 4. Lav venteside når der er maks spillere eller spillet et i gang.
  5. laves Dices til images og evt. flytte logo over i 
  6. Ændre i playerDB's createPlayer metode, og få lagt scores ind i player objektet
  7. Tilføje en post/get endpoint til lobbyen i stedet for at reloade hele siden, hele tiden...
@@ -15,3 +15,4 @@ Lav login(✅)
 Terning rul og udregning gøres på serverside(✅)
 En slags player " simple factory" (✅)
 Lave en timer (✅)
+Max antal spillere på 5 (✅)
