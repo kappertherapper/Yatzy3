@@ -118,3 +118,22 @@ document.querySelectorAll("input").forEach((e) => {
   e.readOnly = "true";
   e.setAttribute("tabindex", -1);
 });
+
+//Scoreboard
+let scoreboardDiv = document.createElement("div");
+scoreboardDiv.id = "scoreboard-div";
+
+let scoreboardHeading = document.createElement("h2");
+scoreboardHeading.id = "scoreboard-heading";
+scoreboardHeading.textContent = "Scoreboard";
+scoreboardDiv.appendChild(scoreboardHeading);
+
+let players = ["Player 1", "Player 2", "Player 3"]; 
+players.forEach((player) => {
+    let playerScore = document.createElement("p");
+    playerScore.textContent = player + ": 0"; // rettes til endelige point
+    scoreboardDiv.appendChild(playerScore);
+    scoreboardDiv.appendChild(document.createElement("br"));
+});
+
+document.body.appendChild(scoreboardDiv);
