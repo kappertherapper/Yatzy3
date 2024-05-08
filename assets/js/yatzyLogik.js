@@ -100,23 +100,25 @@ input.forEach((element, index) => {
       turnCounter = 0;
       paragraphTurn.innerText = "Turn: " + turnCounter;
 
-      let translationTable = [ones,
-        twos,
-        threes,
-        fours,
-        fives,
-        sixes,
-        onePair,
-        twoPairs,
-        threeSame,
-        fourSame,
-        fullHouse,
-        smallStraight,
-        largeStraight,
-        chance,
-        yatzy];
+      let translationTable = ["ones",
+        "twos",
+        "threes",
+        "fours",
+        "fives",
+        "sixes",
+        "onePair",
+        "twoPairs",
+        "threeSame",
+        "fourSame",
+        "fullHouse",
+        "smallStraight",
+        "largeStraight",
+        "chance",
+        "yatzy"];
 
         let totalVal = document.getElementById("totalInput").value;
+
+        console.log("Test45; " + index + " " + translationTable[index]);
 
       await fetch(`http://localhost:6969/api/alloc/${numbertemp}%20${translationTable[index]}%20${totalVal}`, {
         method: 'GET'
