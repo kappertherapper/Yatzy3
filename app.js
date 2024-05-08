@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
 
@@ -42,21 +42,29 @@ app.get("/api/remainingTime", (req, res) => {
 
 app.post("/auth", async (req, res) => {
   const name = req.body.name;
-  if (!await doesPlayerExist(name)) {
-    await addPlayer(createPlayerObject(name));
-    req.session.loggedIn = true;
-    req.session.name = name;
-    await logPlayerIn(name);
-    res.redirect('/lobby/' + name);
-  } else {
-    if (await loginAllowed(name)) {
+  const count = await playerCount();
+
+  console.log("Player Count:", count);
+
+  if (count <= 4) {
+    if (!await doesPlayerExist(name)) {
+      await addPlayer(createPlayerObject(name));
       req.session.loggedIn = true;
       req.session.name = name;
       await logPlayerIn(name);
       res.redirect('/lobby/' + name);
     } else {
-      res.redirect('/login');
+      if (await loginAllowed(name)) {
+        req.session.loggedIn = true;
+        req.session.name = name;
+        await logPlayerIn(name);
+        res.redirect('/lobby/' + name);
+      } else {
+        res.redirect('/login');
+      }
     }
+  } else if (count >= 5){
+    res.redirect('/waitinglobby')
   }
 });
 
@@ -95,9 +103,9 @@ app.get("/lobby/:name", async (req, res) => {
   res.render('lobby', { name: name, users: users });
 });
 
-app.get("/api/playerCount", async (req, res) => {
+ app.get("/api/playerCount", async (req, res) => {
   const users = await readLoggedIn();
-  res.json({ playerCount: users.length });
+   res.json({ playerCount: users.length });
 });
 
 

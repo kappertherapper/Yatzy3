@@ -84,4 +84,13 @@ async function initPlayersJSON(){
     })
 }
 
-export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject}
+
+async function playerCount() {
+    const users = await readLoggedIn();
+    let playerCount = users.length;
+
+    return playerCount;
+}
+
+
+export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount}
