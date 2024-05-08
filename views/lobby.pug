@@ -3,13 +3,17 @@ html
   head
     title Lobby Side
     link(rel="stylesheet", href="/style/lobby.css")
+    link(rel="stylesheet", href="/style/timer.css")
+    script(src="/js/timer.js" defer)
   body
     .container
       .lobby-box
         if name
           h1 Velkommen til lobbyen, #{name}!
-           ul
+          ul
             each user in users
-               li #{user.name}
-           form(action="/logout", method="POST")
-              button(type="submit") Log ud
+              li #{user.name}
+          h1 Gamestart
+          .timer#timer 02:00
+          form(action="/logout", method="POST")
+            button(type="submit") Log ud

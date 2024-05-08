@@ -19,33 +19,50 @@ app.use(session({
 }));
 
 
+/**Kode til timer START */
+let countdownStartTime;
+const countdownDuration = 120; // 2 minutter
+
+app.post("/api/startCountdown", (req, res) => {
+  if (!countdownStartTime) {
+    countdownStartTime = Date.now();
+  }
+  res.json({ success: true });
+});
+
+app.get("/api/remainingTime", (req, res) => {
+  if (!countdownStartTime) {
+    return res.json({ remainingTime: countdownDuration });
+  }
+  const elapsedTime = Math.floor((Date.now() - countdownStartTime) / 1000);
+  const remainingTime = countdownDuration - elapsedTime;
+  res.json({ remainingTime: remainingTime > 0 ? remainingTime : 0 });
+});
+/**SLUTTER HER */
+
 app.post("/auth", async (req, res) => {
   const name = req.body.name;
-  if(! await doesPlayerExist(name)){
-    await addPlayer(createPlayerObject(name))
-      req.session.loggedIn = true,
+  if (!await doesPlayerExist(name)) {
+    await addPlayer(createPlayerObject(name));
+    req.session.loggedIn = true;
+    req.session.name = name;
+    await logPlayerIn(name);
+    res.redirect('/lobby/' + name);
+  } else {
+    if (await loginAllowed(name)) {
+      req.session.loggedIn = true;
       req.session.name = name;
       await logPlayerIn(name);
       res.redirect('/lobby/' + name);
-      res.end();
-  }else{
-    if(await loginAllowed(name)){
-      req.session.loggedIn = true,
-      req.session.name = name;
-      await logPlayerIn(name);
-      res.redirect('/lobby/' + name);
-      res.end();
-    }else {
-      res.redirect('/login')
+    } else {
+      res.redirect('/login');
     }
   }
-})
+});
 
-app.post("/api/roll", (req, res)=>{
-  let toBeRolled =  req.body.list1; //noget med f.eks. [true, false, true, false, false]
-  
+app.post("/api/roll", (req, res) => {
+  let toBeRolled = req.body.list1;
   let userState = roll(toBeRolled);
-
   res.send(userState);
 });
 
@@ -59,12 +76,12 @@ app.get("/api/alc/fieldPoint:", (req, res)=>{
 
 
 app.get("/", (req, res) => {
-    res.render('yatzy')
+  res.render('yatzy');
 });
 
 app.get("/login", (req, res) => {
-  res.render('login')
-})
+  res.render('login');
+});
 
 /*
 app.get("/lobby", (req, res) => {
@@ -72,11 +89,17 @@ app.get("/lobby", (req, res) => {
 }) 
 */
 
-app.get("/lobby/:name", async(req, res) => {
-  const name = req.session.name
+app.get("/lobby/:name", async (req, res) => {
+  const name = req.session.name;
   const users = await readLoggedIn();
-  res.render('lobby', {name: name, users: users})
-})
+  res.render('lobby', { name: name, users: users });
+});
+
+app.get("/api/playerCount", async (req, res) => {
+  const users = await readLoggedIn();
+  res.json({ playerCount: users.length });
+});
+
 
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
