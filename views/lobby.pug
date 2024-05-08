@@ -3,12 +3,13 @@ html
   head
     title Lobby Side
     link(rel="stylesheet", href="/style/lobby.css")
-    script. 
-      setTimeout(()=>{
+    script.
+      setTimeout(() => {
         location.reload();
       }, 2000);
     link(rel="stylesheet", href="/style/timer.css")
     script(src="/js/timer.js" defer)
+    script(src="/js/gameStart.js" defer)
   body
     .container
       .lobby-box
@@ -19,5 +20,7 @@ html
               li #{user.name}
           h1 Gamestart
           .timer#timer 02:00
+          button#startButton Start
           form(action="/logout", method="POST")
             button(type="submit") Log ud
+          

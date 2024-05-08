@@ -18,6 +18,19 @@ app.use(session({
   resave: true
 }));
 
+/*KODE TIL STARTKNAP*/
+let gameStarted = false;
+
+app.post("/api/startGame", (req, res) => {
+  gameStarted = true;
+  res.json({ success: true });
+});
+
+app.get("/api/gameStatus", (req, res) => {
+  res.json({ gameStarted });
+});
+/*KODE TIL STARTKNAP SLUTTER HER*/ 
+ 
 
 /**Kode til timer START */
 let countdownStartTime;
