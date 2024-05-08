@@ -77,9 +77,9 @@ function resetScores(){
 });
 }
 
-const input = document.querySelectorAll("input");
-input.forEach((element) => {
-  element.addEventListener("click", () => {
+const input = document.querySelectorAll(".inputs");
+input.forEach((element, index) => {
+  element.addEventListener("click", async () => {
     if (
       element.id != "totalInput" &&
       element.id != "sumInput" &&
@@ -99,6 +99,29 @@ input.forEach((element) => {
       btnRoll.disabled = "";
       turnCounter = 0;
       paragraphTurn.innerText = "Turn: " + turnCounter;
+
+      let translationTable = ["ones",
+        "twos",
+        "threes",
+        "fours",
+        "fives",
+        "sixes",
+        "onePair",
+        "twoPairs",
+        "threeSame",
+        "fourSame",
+        "fullHouse",
+        "smallStraight",
+        "largeStraight",
+        "chance",
+        "yatzy"];
+
+        let totalVal = document.getElementById("totalInput").value;
+
+        console.log("Test45; " + index + " " + translationTable[index]);
+
+      await fetch(`http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`);
+
       resetScores();
       blankDiceDisplay();
       unholdAllDice();

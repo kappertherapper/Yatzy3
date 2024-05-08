@@ -7,7 +7,45 @@ async function readFile() {
 }
 
 function createPlayerObject(name){
-    return {name: name, loggedIn: false};
+    return {name: name, loggedIn: false,
+        scoreVals: {
+            dicevals: [6, 6, 6, 6, 6],
+            ones: -1,
+            twos:  -1,
+            threes:  -1,
+            fours:  -1,
+            fives:  -1,
+            sixes:  -1,
+            onePair:  -1,
+            twoPairs:  -1,
+            threeSame:  -1,
+            fourSame:  -1,
+            fullHouse:  -1,
+            smallStraight:  -1,
+            largeStraight:  -1,
+            chance:  -1,
+            yatzy:  -1,
+            total: 0
+            }
+    };
+}
+
+async function updatePlayerScore(name, field, point, total){
+    let currentDB = await readFile();
+
+    let playerIndex = -1;
+
+    for(let i = 0 ; i<currentDB.length ; i++){
+        if(currentDB[i].name==name) playerIndex = i;
+    }
+
+    console.log("Test204: " + field + " " + point);
+
+    Object.defineProperty(currentDB[playerIndex].scoreVals, field, {value: point, writable: true});
+    Object.defineProperty(currentDB[playerIndex].scoreVals, "total", {value: total, writable: true});
+
+    let existingPlayer = JSON.stringify(currentDB);
+    await fs.promises.writeFile("players.json", existingPlayer, {encoding: "utf-8"});
 }
 
 async function addPlayer(playerObject) {
@@ -93,4 +131,4 @@ async function playerCount() {
 }
 
 
-export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount}
+export {readFile, addPlayer, loginAllowed, doesPlayerExist,logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount, updatePlayerScore}

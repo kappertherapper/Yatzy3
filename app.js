@@ -1,6 +1,6 @@
 import express from 'express';
 import session from 'express-session';
-import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount} from './playerDB.js'
+import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount, updatePlayerScore} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
 
@@ -73,11 +73,13 @@ app.post("/api/roll", (req, res) => {
   res.send(userState);
 });
 
-app.get("/api/alc/fieldPoint:", (req, res)=>{
-  //let params = req.params.fieldPoint;
-  //split params på mellem
+app.get("/api/allocPoints/:data", async (req, res)=>{
+  let splitData = req.params.data.split("-"); //tænker tre data med '-' imellem, point, felt, total
+  let points = Number(splitData[0]);
+  let field = splitData[1];
+  let total = Number(splitData[2]);
 
-  //isPlayerOneTurn = !isPlayerOneTurn; //flip til den anden spillers tur
+  await updatePlayerScore("Player One", field, points, total); //req.session.name???
 });
 
 
