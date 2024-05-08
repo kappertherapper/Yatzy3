@@ -78,8 +78,8 @@ function resetScores(){
 }
 
 const input = document.querySelectorAll("input");
-input.forEach((element) => {
-  element.addEventListener("click", () => {
+input.forEach((element, index) => {
+  element.addEventListener("click", async () => {
     if (
       element.id != "totalInput" &&
       element.id != "sumInput" &&
@@ -99,6 +99,29 @@ input.forEach((element) => {
       btnRoll.disabled = "";
       turnCounter = 0;
       paragraphTurn.innerText = "Turn: " + turnCounter;
+
+      let translationTable = [ones,
+        twos,
+        threes,
+        fours,
+        fives,
+        sixes,
+        onePair,
+        twoPairs,
+        threeSame,
+        fourSame,
+        fullHouse,
+        smallStraight,
+        largeStraight,
+        chance,
+        yatzy];
+
+        let totalVal = document.getElementById("totalInput").value;
+
+      await fetch(`http://localhost:6969/api/alloc/${numbertemp}%20${translationTable[index]}%20${totalVal}`, {
+        method: 'GET'
+      });
+
       resetScores();
       blankDiceDisplay();
       unholdAllDice();
