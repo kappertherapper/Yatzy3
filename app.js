@@ -44,7 +44,6 @@ app.post("/auth", async (req, res) => {
   const name = req.body.name;
   const count = await playerCount();
 
-  console.log("Player Count:", count);
 
   if (count <= 4) {
     if (!await doesPlayerExist(name)) {
