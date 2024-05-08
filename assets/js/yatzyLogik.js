@@ -58,7 +58,7 @@ btnRoll.addEventListener("click", async () => {
 function updateDiceImgs(diceValues){
   document.querySelectorAll(".diceImg").forEach((dice, index) => {
     if (!dice.classList.contains("held")) {
-      dice.src = `Dices/Dice-${diceValues[index]}.png`;
+      dice.src = `images/Dice-${diceValues[index]}.png`;
     }
   });
 }
@@ -135,7 +135,7 @@ function updateBonus() {
 
 function blankDiceDisplay() {
   document.querySelectorAll(".diceImg").forEach((dice) => {
-    dice.src = `Dices/blankDice.png`;
+    dice.src = `images/blankDice.png`;
   });
 }
 
