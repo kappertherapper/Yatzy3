@@ -73,6 +73,11 @@ function updateScoresOnAlloc(userState){
             input1.style.backgroundColor="lightgrey";
           }
     });
+
+    let totalInput = document.querySelector("#totalInput");
+    totalInput.value = scoreServer[16];
+
+
 }
 
 function updateScores(userState){
@@ -97,6 +102,9 @@ function totalReset(){
     input1.value=0;
     input1.style.backgroundColor="white";
   })
+
+  let totalInput = document.querySelector("#totalInput");
+  totalInput.value = 0;
 }
 
 const input = document.querySelectorAll(".inputs");
@@ -149,6 +157,8 @@ input.forEach((element, index) => {
       console.log("HELT NY TEST: " + JSON.stringify(nextPlayerScores));
       totalReset();
       updateScoresOnAlloc(nextPlayerScores);
+
+      
 
       //resetScores();
       blankDiceDisplay();
