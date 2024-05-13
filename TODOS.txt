@@ -4,6 +4,8 @@
  2. Tilføje en post/get endpoint til lobbyen i stedet for at reloade hele siden, hele tiden...
  3. Game over screen
  4. Udvidet scoreboard
+ 5. Et script til waiting lobby der holder den opdateret
+ 6. Måske fjerne dicevals fra player objekterne.
  
 DONE 
 Lav forside og oprettelse (✅)
