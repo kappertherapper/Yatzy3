@@ -121,6 +121,20 @@ app.get("/login", (req, res) => {
   res.render('login');
 });
 
+app.get("/waitinglobby", async (req, res) => {
+  const name = req.session.name;
+  const users1 = await readLoggedIn();
+  
+  let count = 0;
+  let users = []
+  for (const index in users1) {
+    if (count <= 5) {
+      users.push(users1[index]); // Push the user object, not the index
+      count++;
+    }
+  }
+  res.render('waitinglobby', { name: name, users: users });
+})
 /*
 app.get("/lobby", (req, res) => {
   res.render('lobby')
