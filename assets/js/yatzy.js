@@ -164,3 +164,29 @@ players.forEach((player, index) => {
 document.addEventListener("DOMContentLoaded", async()=> await createScoreBoard());
 
 setInterval(updateScoreBoard, 1000);
+
+
+  //let div = document.createElement("div");
+  //div.style.display ="inline";
+  let h1 = document.createElement("h1");
+  h1.id="currentPlayerHeader";
+  h1.style.display="inline";
+  h1.style.margin="20";
+
+
+  document.body.prepend(h1);
+  //div.appendChild(h1);
+
+
+async function updatePlayerShown() {
+  let h1Temp = document.querySelector("#currentPlayerHeader");
+  let loggedInPlayers = await fetch("http://localhost:6969/api/getCurrentPlayer");
+  loggedInPlayers = await loggedInPlayers.json();
+
+  h1.innerHTML = "Turn: " + loggedInPlayers.name;
+}
+
+setInterval(updatePlayerShown, 50);
+
+
+
