@@ -132,8 +132,6 @@ scoreboardDiv.appendChild(scoreboardHeading);
 let players = await fetch("http://localhost:6969/api/getPlayers");
 players = await players.json();
 
-console.log("TESt34234: " + JSON.stringify(players));
-
 players.forEach((player) => {
     let playerScore = document.createElement("p");
     playerScore.id="playerParagraph";
@@ -157,7 +155,7 @@ async function updateScoreBoard(){
 
 players.forEach((player, index) => {
     let temp = playerParas[index];
-    console.log("TSET NY: " + JSON.stringify(playerParas));
+    //console.log("TSET NY: " + JSON.stringify(playerParas));
     temp.textContent = player.name + ": " + player.scoreVals.total;
 });
 }

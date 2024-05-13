@@ -30,8 +30,8 @@ btnRoll.addEventListener("click", async () => {
   //displayScores();
 
   const sendData = {list1: toBeRolled};
-  console.log("TSET: " + JSON.stringify(sendData));
-  console.log("TEST2: " + sendData.list1);
+  //console.log("TSET: " + JSON.stringify(sendData));
+  //console.log("TEST2: " + sendData.list1);
 
   const scoresRaw = await fetch('http://localhost:6969/api/roll', {
     method: 'POST',
@@ -41,8 +41,6 @@ btnRoll.addEventListener("click", async () => {
     body: JSON.stringify(sendData)
   });
   const userState = await scoresRaw.json();
-
-  console.log("TEST: " + JSON.stringify(userState));
 
   updateDiceImgs(userState.dicevals);
 
@@ -63,18 +61,42 @@ function updateDiceImgs(diceValues){
   });
 }
 
-function updateScores(userState){
+function updateScoresOnAlloc(userState){
     let scoreServer = Object.values(userState);
 
     document.querySelectorAll(".inputs").forEach((input1, index)=>{
-        if(!input1.disabled) input1.value= scoreServer[index+1]; //plus 2 er fra scorCalc's userState
+          let newVal = scoreServer[index+1];
+          input1.value = newVal==-1? 0: newVal;  //plus 2 er fra scorCalc's userState
+          
+          if(newVal!=-1) {
+            input1.disabled=true;
+            input1.style.backgroundColor="lightgrey";
+          }
     });
+}
+
+function updateScores(userState){
+  let scoreServer = Object.values(userState);
+
+  document.querySelectorAll(".inputs").forEach((input1, index)=>{
+        if(!input1.disabled){
+          input1.value = scoreServer[index+1];
+        }
+  });
 }
 
 function resetScores(){
   document.querySelectorAll(".inputs").forEach((input1, index)=>{
     if(!input1.disabled) input1.value= 0;
 });
+}
+
+function totalReset(){
+  document.querySelectorAll(".inputs").forEach((input1, index)=>{
+    input1.disabled ="";
+    input1.value=0;
+    input1.style.backgroundColor="white";
+  })
 }
 
 const input = document.querySelectorAll(".inputs");
@@ -120,10 +142,15 @@ input.forEach((element, index) => {
 
         //console.log("Test45; " + index + " " + translationTable[index]);
 
-      await fetch(`http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`);
+      let tempCrap = await fetch(`http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`);
 
-      console.log("TEST WTF");
-      resetScores();
+      let nextPlayerScores = await tempCrap.json();
+
+      console.log("HELT NY TEST: " + JSON.stringify(nextPlayerScores));
+      totalReset();
+      updateScoresOnAlloc(nextPlayerScores);
+
+      //resetScores();
       blankDiceDisplay();
       unholdAllDice();
       gameDone();
