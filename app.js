@@ -174,9 +174,7 @@ app.post("/logout", (req, res) => {
 //await logEveryoneOut(); //Serveren starter, alle logges ud...
 
 app.listen(
-  6969,
-  setTimeout(await initPlayersJSON(), 2000),
-  await logEveryoneOut(),
+  6969, await initPlayersJSON(), await logEveryoneOut(),
   () => {
     console.log("Lytter på port 6969.. ");
   }
