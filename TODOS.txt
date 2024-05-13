@@ -1,6 +1,6 @@
 --------------------- TODO --------------------- 
 
- 1. Lav venteside når der er maks spillere eller spillet et i gang.
+ 1. Få venteside til at opdatere scoreboard automatisk.
  2. Tilføje en post/get endpoint til lobbyen i stedet for at reloade hele siden, hele tiden...
  3. Game over screen
  4. Udvidet scoreboard
@@ -16,3 +16,4 @@ Max antal spillere på 5 (✅)
 Turbaseret (✅)
 Players score i JSON fil, med alle felter, som opdateres undervejs (✅)
 Lav startknap som videresender alle spillere til spillet fra lobbyen (✅) 
+Lav venteside når der er maks spillere eller spillet et i gang. (✅)
