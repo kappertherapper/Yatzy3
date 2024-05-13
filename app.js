@@ -144,8 +144,9 @@ app.get("/api/getPlayers", async (req, res)=>{
 });
 
 app.get('/api/getCurrentPlayer', async (req,res) => {
-  const currentPlayer = await readFile();
-  currentPlayer = currentPlayer[currentPlayerIndex]
+  let currentPlayer = await readFile();
+  currentPlayer = currentPlayer[currentPlayerIndex];
+  console.log("Test ny: " + currentPlayer.name);
   res.send(currentPlayer);
 })
 
