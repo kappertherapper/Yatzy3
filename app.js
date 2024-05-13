@@ -187,8 +187,13 @@ app.post("/logout", (req, res) => {
 
 //await logEveryoneOut(); //Serveren starter, alle logges ud...
 
+async function tempFunc(){
+  await initPlayersJSON(); 
+  await logEveryoneOut();
+}
+
 app.listen(
-  6969, await initPlayersJSON(), await logEveryoneOut(),
+  6969, tempFunc(),
   () => {
     console.log("Lytter på port 6969.. ");
   }
