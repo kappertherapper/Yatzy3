@@ -96,16 +96,11 @@ app.get("/api/allocPoints/:data", async (req, res)=>{
   let total = Number(splitData[2]);
 
   let allPlayer = await readFile();
-  
-  console.log("NY NY TEST: " + allPlayer);
-
 
   let currentPlayerName = allPlayer[currentPlayerIndex].name;
 
-  console.log("Name: " + currentPlayerName);
-
   currentPlayerIndex++;
-  if(currentPlayerIndex==allPlayer.size) currentPlayerIndex = 0;
+  if(currentPlayerIndex>=allPlayer.length) currentPlayerIndex = 0;
  
 
   await updatePlayerScore(currentPlayerName, field, points, total); //req.session.name???
