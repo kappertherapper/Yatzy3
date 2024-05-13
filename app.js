@@ -11,6 +11,9 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('./assets')) //ændring maybe? ;)
 app.use(express.json());
 
+let currentPlayerIndex = 0;
+
+
 
 app.use(session({
   secret: '2EFA4E9B-26FE-4D2A-94FA-D51827DA2F8B',
@@ -92,7 +95,21 @@ app.get("/api/allocPoints/:data", async (req, res)=>{
   let field = splitData[1];
   let total = Number(splitData[2]);
 
-  await updatePlayerScore("Player One", field, points, total); //req.session.name???
+  let allPlayer = await readFile();
+  
+  console.log("NY NY TEST: " + allPlayer);
+
+
+  let currentPlayerName = allPlayer[currentPlayerIndex].name;
+
+  console.log("Name: " + currentPlayerName);
+
+  currentPlayerIndex++;
+  if(currentPlayerIndex==allPlayer.size) currentPlayerIndex = 0;
+ 
+
+  await updatePlayerScore(currentPlayerName, field, points, total); //req.session.name???
+
   res.end();
 });
 

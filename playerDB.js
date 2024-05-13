@@ -39,6 +39,11 @@ async function updatePlayerScore(name, field, point, total){
         if(currentDB[i].name==name) playerIndex = i;
     }
 
+    if(playerIndex==-1){
+        console.log("EROOR player not found");
+        return undefined;
+    }
+
     console.log("Test204: " + field + " " + point);
 
     Object.defineProperty(currentDB[playerIndex].scoreVals, field, {value: point, writable: true});
