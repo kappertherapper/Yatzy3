@@ -1,77 +1,108 @@
-#outer-grid{
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #E3F2FD;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#outer-grid {
     display: grid;
     padding: 5%;
     grid-template-rows: 1fr 2fr;
-    row-gap: 3%;
-    background-image: linear-gradient(#f1f7cd, #fde7d1);
+    gap: 3%;
+    background-color: #FFFFFF;
     margin: auto;
     max-width: 40%;
-    max-height: 100%;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid #BBDEFB;
 }
 
-body{
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: #6575A8;
-}
-
-#score-div{
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;
+#outer-grid > div {
+    border: 1px solid #BBDEFB;
+    border-radius: 5px;
     padding: 10px;
+    background: #FFFFFF;
 }
 
-#dice-div{
+#score-div {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat(6, 1fr);
     padding: 10px;
+    gap: 10px;
+    background: #E3F2FD;
+    border-radius: 5px;
 }
 
-#outer-grid>div{
-    border: 1px solid #c5ce5b;
+#dice-div {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    padding: 10px;
+    gap: 10px;
+    background: #E3F2FD;
+    border-radius: 5px;
 }
 
-
-.diceImg{
-    height: 95%;
-    width: 95%;
+.diceImg {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Ensures the box is square */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#btnRoll{ /*Hvorfor har den her knap en venstre margin...*/
-    margin-left: 0px;
+.diceImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensures the image fits within the box */
+}
+
+.diceImg:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.held {
+    box-shadow: 0 0 15px rgba(30, 136, 229, 0.5);
+}
+
+#btnRoll {
+    margin-left: 0;
     height: 40%;
     align-self: center;
     justify-self: end;
+    background-color: #BBDEFB;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-input{
+#btnRoll:hover {
+    background-color: #90CAF9;
+}
+
+input {
     width: 45%;
     height: 60%;
     align-self: center;
+    padding: 5px;
+    border: 1px solid #BBDEFB;
+    border-radius: 5px;
+    background: #FFFFFF;
 }
 
-p{
+p {
     display: inline;
-    margin: 0px;
+    margin: 0;
     align-self: center;
-}
-
-/* kode tilføjet til at kunne vise man holder terningerne */
-.diceImg {
-    cursor: pointer;
-    transition: all 0.3s ease; /* laver overgang */
-    
-}
-
-/* hover */
-.diceImg:hover {
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* skygge på terning */
-    transform: scale(1.1); /* terning bliver større ved hover */
-}
-
-/* Stil for "holdte" terninger */
-.held {
-    box-shadow: 0 0 15px rgba(36, 36, 36, 0.5); /* Tilføjer en rød skygge for yderligere at indikere "holdt" status */
 }
 
 #scoreboard-div {
@@ -80,13 +111,31 @@ p{
     right: 20px;
     width: 200px;
     padding: 20px;
-    border: 2px solid #ccc;
+    border: 1px solid #BBDEFB;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #scoreboard-heading {
     margin-bottom: 10px;
     font-size: 1.2em;
+    color: #232323;
 }
 
+.currentPlayerHeader {
+    font-size: 30px;
+    justify-self: center;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #232323;
+}
 
-
+.playerTurnHeader {
+    font-size: 50px;
+    text-decoration: solid;
+    justify-self: center;
+    display: inline-block;
+    margin-bottom: -2%;
+    color: #232323;
+}

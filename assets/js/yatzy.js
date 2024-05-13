@@ -168,22 +168,24 @@ setInterval(updateScoreBoard, 1000);
 
   //let div = document.createElement("div");
   //div.style.display ="inline";
-  let h1 = document.createElement("h1");
-  h1.id="currentPlayerHeader";
-  h1.style.display="inline";
-  h1.style.margin="20";
-
-
-  document.body.prepend(h1);
+  let h1 = document.createElement('h1');
+  let h2 = document.createElement("h2");
+  h1.className="playerTurnHeader";
+  h1.textContent= "PLAYER TURN";
+  h2.className="currentPlayerHeader";
+ 
+  outerGrid.prepend(h2);
+  outerGrid.prepend(h1);
+  
   //div.appendChild(h1);
 
 
 async function updatePlayerShown() {
-  let h1Temp = document.querySelector("#currentPlayerHeader");
+  let h2Temp = document.querySelector(".currentPlayerHeader");
   let loggedInPlayers = await fetch("http://localhost:6969/api/getCurrentPlayer");
   loggedInPlayers = await loggedInPlayers.json();
 
-  h1.innerHTML = "Turn: " + loggedInPlayers.name;
+  h2.innerHTML = loggedInPlayers.name;
 }
 
 setInterval(updatePlayerShown, 50);
