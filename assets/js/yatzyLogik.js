@@ -118,10 +118,11 @@ input.forEach((element, index) => {
 
         let totalVal = document.getElementById("totalInput").value;
 
-        console.log("Test45; " + index + " " + translationTable[index]);
+        //console.log("Test45; " + index + " " + translationTable[index]);
 
       await fetch(`http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`);
 
+      console.log("TEST WTF");
       resetScores();
       blankDiceDisplay();
       unholdAllDice();

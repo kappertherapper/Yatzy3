@@ -93,6 +93,7 @@ app.get("/api/allocPoints/:data", async (req, res)=>{
   let total = Number(splitData[2]);
 
   await updatePlayerScore("Player One", field, points, total); //req.session.name???
+  res.end();
 });
 
 
