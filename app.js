@@ -143,6 +143,12 @@ app.get("/api/getPlayers", async (req, res)=>{
   res.send(players);
 });
 
+app.get('/api/getCurrentPlayer', async (req,res) => {
+  const currentPlayer = await readFile();
+  currentPlayer = currentPlayer[currentPlayerIndex]
+  res.send(currentPlayer);
+})
+
 
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
@@ -167,6 +173,11 @@ app.post("/logout", (req, res) => {
 
 //await logEveryoneOut(); //Serveren starter, alle logges ud...
 
-app.listen(6969, await initPlayersJSON(), await logEveryoneOut(), () => {
-  console.log("Lytter på port 6969.. ");
-});
+app.listen(
+  6969,
+  setTimeout(await initPlayersJSON(), 2000),
+  await logEveryoneOut(),
+  () => {
+    console.log("Lytter på port 6969.. ");
+  }
+);

@@ -164,3 +164,19 @@ players.forEach((player, index) => {
 document.addEventListener("DOMContentLoaded", async()=> await createScoreBoard());
 
 setInterval(updateScoreBoard, 1000);
+
+async function currentPlayerShown() {
+  const div = document.createElement("div");
+  const h1 = document.createElement("h1");
+
+  document.append(div);
+  div.appendChild(h1);
+
+  const loggedInPlayers = await fetch("http://localhost:6969/api/getCurrentPlayer");
+  loggedInPlayers = await loggedInPlayers.json()
+
+  h1.textContent = loggedInPlayers.name;
+}
+
+currentPlayerShown();
+
