@@ -136,6 +136,8 @@ console.log("TESt34234: " + JSON.stringify(players));
 
 players.forEach((player) => {
     let playerScore = document.createElement("p");
+    playerScore.id="playerParagraph";
+
     playerScore.textContent = player.name + ": " + player.scoreVals.total;
     scoreboardDiv.appendChild(playerScore);
     scoreboardDiv.appendChild(document.createElement("br"));
@@ -144,4 +146,23 @@ players.forEach((player) => {
 document.body.appendChild(scoreboardDiv);
 }
 
+async function updateScoreBoard(){
+  let playerParas = document.querySelectorAll("#playerParagraph");
+  
+
+  let players = await fetch("http://localhost:6969/api/getPlayers");
+  players = await players.json();
+
+//console.log("TESt34234: " + JSON.stringify(players));
+
+players.forEach((player, index) => {
+    let temp = playerParas[index];
+    console.log("TSET NY: " + JSON.stringify(playerParas));
+    temp.textContent = player.name + ": " + player.scoreVals.total;
+});
+}
+
+
 document.addEventListener("DOMContentLoaded", async()=> await createScoreBoard());
+
+setInterval(updateScoreBoard, 1000);
