@@ -1,0 +1,14 @@
+#gameOverModal.modal
+  .modal-content
+    span.close &times;
+    h1 Game Over
+    if winner
+      p Winner: #{winner}
+    else
+      p It's a draw!
+    p Final Scores:
+    ul
+      each player in players
+        li #{player.name}: #{player.score}
+
+        script(src="/assets/js/yatzy.js" defer)

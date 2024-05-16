@@ -192,3 +192,48 @@ setInterval(updatePlayerShown, 500);
 
 
 
+
+
+//Gameover knap
+document.addEventListener('DOMContentLoaded', function() {
+  const button = document.createElement('button');
+  button.id = 'gameOverBtn';
+  button.textContent = 'Show Game Over';
+
+  button.addEventListener('click', function() {
+    const modal = document.getElementById('gameOverModal');
+    if (modal) {
+      modal.style.display = 'block';
+    } else {
+      console.error('Modal element not found');
+    }
+  });
+
+  document.body.appendChild(button);
+
+  const closeBtn = document.querySelector('.close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      const modal = document.getElementById('gameOverModal');
+      if (modal) {
+        modal.style.display = 'none';
+      } else {
+        console.error('Modal element not found');
+      }
+    });
+  } else {
+    console.error('Close button not found');
+  }
+
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('gameOverModal');
+    if (modal && event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+});
+
+
+
+
+

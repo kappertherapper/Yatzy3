@@ -180,6 +180,16 @@ app.post("/logout", (req, res) => {
   });
 });
 
+app.get('/gameover', async (req, res) => {
+  let players = await fetch("http://localhost:6969/api/getPlayers");
+  players = await players.json();
+
+  const winner = "winner"; // Function to determine the winner
+  const playerScores = players.scoreVals; 
+  
+  res.render('yatzy', { winner, playerScores });
+});
+
 // app.post("/login)", (reg, res) => {
 //   const {username} = reg.body;
 
