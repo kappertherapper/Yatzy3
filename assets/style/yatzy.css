@@ -120,22 +120,7 @@ p {
 #scoreboard-heading {
     margin-bottom: 10px;
     font-size: 1.2em;
-    color: #232323;
 }
 
-.currentPlayerHeader {
-    font-size: 30px;
-    justify-self: center;
-    display: inline-block;
-    margin-bottom: 10px;
-    color: #232323;
-}
 
-.playerTurnHeader {
-    font-size: 50px;
-    text-decoration: solid;
-    justify-self: center;
-    display: inline-block;
-    margin-bottom: -2%;
-    color: #232323;
-}
+
