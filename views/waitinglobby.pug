@@ -30,7 +30,7 @@ html(lang="en")
             tbody
               each user in playersInGame
                 tr
-                  td= user.name 
+                  td= user.name + ": " + user.scoreVals.total
         h2 Players in Queue
         ul#queueList
           if playersInQueue && playersInQueue.length > 0
