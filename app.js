@@ -12,6 +12,9 @@ app.use(express.static('./assets')) //ændring maybe? ;)
 app.use(express.json());
 
 let currentPlayerIndex = 0;
+let gameStarted = false;
+let queue = [];
+
 
 
 
@@ -22,7 +25,7 @@ app.use(session({
 }));
 
 /*KODE TIL STARTKNAP*/
-let gameStarted = false;
+
 
 app.post("/api/startGame", (req, res) => {
   gameStarted = true;
@@ -67,13 +70,23 @@ app.post("/auth", async (req, res) => {
       req.session.loggedIn = true;
       req.session.name = name;
       await logPlayerIn(name);
-      res.redirect('/lobby/' + name);
+      if(gameStarted) {
+        queue.push(name) // hvis spillet er startet, tilføjes spiller til en kø
+        res.redirect('/waitinglobby');
+      } else {
+        res.redirect('/lobby/' + name)
+      }
     } else {
       if (await loginAllowed(name)) {
         req.session.loggedIn = true;
         req.session.name = name;
         await logPlayerIn(name);
-        res.redirect('/lobby/' + name);
+        if(gameStarted) {
+          queue.push(name) // hvis spillet er startet, tilføjes spiller til en kø
+          res.redirect('/waitinglobby');
+        } else {
+          res.redirect('/lobby/' + name)
+        }
       } else {
         res.redirect('/login');
       }
@@ -124,16 +137,11 @@ app.get("/login", (req, res) => {
 app.get("/waitinglobby", async (req, res) => {
   const name = req.session.name;
   const users1 = await readLoggedIn();
+
+  let playersInGame = users1;
+  playersInGame = playersInGame.filter((e) => !queue.includes(e.name))
   
-  let count = 0;
-  let users = [];
-  for (const index in users1) {
-    if (count <= 5) {
-      users.push(users1[index]); // Push the user object, not the index
-      count++;
-    }
-  }
-  res.render('waitinglobby', { name: name, users: users });
+  res.render('waitinglobby', { name: name, playersInGame: playersInGame, playersInQueue: queue });
 })
 /*
 app.get("/lobby", (req, res) => {

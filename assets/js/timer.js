@@ -53,8 +53,36 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   }
 
+  function checkGameStatus() {
+    fetch('/api/gameStatus')
+      .then(response => response.json())
+      .then(data => {
+        if (data.gameStarted) {
+          window.location.href = '/';
+        }
+      });
+  }
+
   // Tjekker spiller antallet hvert 5. sekundt
   setInterval(checkPlayerCount, 5000);
-
   checkPlayerCount();
+  setInterval(checkGameStatus, 5000);
+  checkGameStatus();
+
+  function updateQueue() {
+    fetch('/api/getQueue')
+      .then(response => response.json())
+      .then(data => {
+        const queueList = document.getElementById('queueList');
+        queueList.innerHTML = '';
+        data.queue.forEach(player => {
+          const listItem = document.createElement('li');
+          listItem.textContent = player;
+          queueList.appendChild(listItem);
+        });
+      });
+  }
+
+  setInterval(updateQueue, 5000)
+  updateQueue();
 });
