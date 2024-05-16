@@ -137,19 +137,11 @@ app.get("/login", (req, res) => {
 app.get("/waitinglobby", async (req, res) => {
   const name = req.session.name;
   const users1 = await readLoggedIn();
-  
-  
-  let playersInGame = [];
-  let playersInQueue = [];
 
-  if(gameStarted) {
-    playersInGame = users1;
-    playersInQueue = queue;
-  } else {
-    playersInGame = users1.slice(0,5);
-    playersInQueue = users1.slice(5);
-  }
-  res.render('waitinglobby', { name: name, playersInGame: playersInGame, playersInQueue: playersInQueue });
+  let playersInGame = users1;
+  playersInGame = playersInGame.filter((e) => !queue.includes(e.name))
+  
+  res.render('waitinglobby', { name: name, playersInGame: playersInGame, playersInQueue: queue });
 })
 /*
 app.get("/lobby", (req, res) => {
