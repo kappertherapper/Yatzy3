@@ -188,7 +188,7 @@ async function updatePlayerShown() {
   h2.innerHTML = loggedInPlayers.name;
 }
 
-setInterval(updatePlayerShown, 50);
+setInterval(updatePlayerShown, 500);
 
 
 
