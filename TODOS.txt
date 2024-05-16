@@ -6,6 +6,7 @@
  4. Udvidet scoreboard
  5. Et script til waiting lobby der holder den opdateret
  6. Måske fjerne dicevals fra player objekterne.
+ 7. Scoreboard opdatering tage højde for nye spillere???
  
 DONE 
 Lav forside og oprettelse (✅)

@@ -126,7 +126,7 @@ app.get("/waitinglobby", async (req, res) => {
   const users1 = await readLoggedIn();
   
   let count = 0;
-  let users = []
+  let users = [];
   for (const index in users1) {
     if (count <= 5) {
       users.push(users1[index]); // Push the user object, not the index
@@ -156,6 +156,11 @@ app.get("/api/getPlayers", async (req, res)=>{
   const players = await readFile();
   res.send(players);
 });
+
+app.get("/api/getLoggedIn", async (req, res)=>{
+  let temp = await readLoggedIn();
+  res.send(temp);
+})
 
 app.get('/api/getCurrentPlayer', async (req,res) => {
   let currentPlayer = await readFile();

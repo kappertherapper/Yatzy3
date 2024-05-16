@@ -3,6 +3,21 @@ html
   head
     title Yatzy login
     link(rel="stylesheet", href="/style/waitinglobby.css")
+    script.
+      async function updateScores(){
+          let playersTemp = await fetch("http://localhost:6969/api/getLoggedIn");
+          let players = await playersTemp.json();
+
+          let daList = document.querySelector("ul");
+          daList.innerHTML = "";
+          for(let player of players){
+            let tempLi = document.createElement("li");
+            tempLi.innerHTML = player.name + ": " + player.scoreVals.total;
+            daList.appendChild(tempLi);
+          }
+      }
+      setInterval(updateScores, 1000);
+
   body
     .container
       .login-box
