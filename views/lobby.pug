@@ -4,9 +4,19 @@ html
     title Lobby Side
     link(rel="stylesheet", href="/style/lobby.css")
     script.
-      setTimeout(() => {
-        location.reload();
-      }, 2000);
+      async function updateLobby(){
+          let playersTemp = await fetch("http://localhost:6969/api/getLoggedIn");
+          let players = await playersTemp.json();
+
+          let daList = document.querySelector("ul");
+          daList.innerHTML = "";
+          for(let player of players){
+            let tempLi = document.createElement("li");
+            tempLi.innerHTML = player.name;
+            daList.appendChild(tempLi);
+          }
+      }
+      setInterval(updateLobby, 1000);
     link(rel="stylesheet", href="/style/timer.css")
     script(src="/js/timer.js" defer)
     script(src="/js/gameStart.js" defer)

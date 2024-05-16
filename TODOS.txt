@@ -1,12 +1,9 @@
 --------------------- TODO --------------------- 
 
- 1. Få venteside til at opdatere scoreboard automatisk.
- 2. Tilføje en post/get endpoint til lobbyen i stedet for at reloade hele siden, hele tiden...
- 3. Game over screen
- 4. Udvidet scoreboard
- 5. Et script til waiting lobby der holder den opdateret
- 6. Måske fjerne dicevals fra player objekterne.
- 7. Scoreboard opdatering tage højde for nye spillere???
+ 1. Game over screen
+ 2. Udvidet scoreboard
+ 3. Måske fjerne dicevals fra player objekterne.
+ 4. Scoreboard opdatering tage højde for nye spillere???
  
 DONE 
 Lav forside og oprettelse (✅)
@@ -20,3 +17,5 @@ Turbaseret (✅)
 Players score i JSON fil, med alle felter, som opdateres undervejs (✅)
 Lav startknap som videresender alle spillere til spillet fra lobbyen (✅) 
 Lav venteside når der er maks spillere eller spillet et i gang. (✅)
+Tilføje en post/get endpoint til lobbyen i stedet for at reloade hele siden, hele tiden... (✅)
+Et script til waiting lobby der holder den opdateret (❌)
