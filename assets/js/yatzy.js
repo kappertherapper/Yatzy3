@@ -180,45 +180,58 @@ async function currentPlayerShown() {
 
 currentPlayerShown();
 
-
-
-//Gameover knap
-document.addEventListener('DOMContentLoaded', function() {
-  const button = document.createElement('button');
-  button.id = 'gameOverBtn';
-  button.textContent = 'Show Game Over';
-
-  button.addEventListener('click', function() {
-    const modal = document.getElementById('gameOverModal');
-    if (modal) {
-      modal.style.display = 'block';
-    } else {
-      console.error('Modal element not found');
-    }
-  });
-
-  document.body.appendChild(button);
-
-  const closeBtn = document.querySelector('.close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', function() {
-      const modal = document.getElementById('gameOverModal');
-      if (modal) {
-        modal.style.display = 'none';
-      } else {
-        console.error('Modal element not found');
-      }
-    });
-  } else {
-    console.error('Close button not found');
+function determineWinner(players) {
+  if (players.length === 0) {
+      return null; 
   }
 
-  window.addEventListener('click', function(event) {
-    const modal = document.getElementById('gameOverModal');
-    if (modal && event.target === modal) {
-      modal.style.display = 'none';
-    }
+  let maxScore = -Infinity;
+  let winner = null;
+
+  players.forEach(player => {
+      if (player.scoreVals.total > maxScore) {
+          maxScore = player.scoreVals.total;
+          winner = player.name;
+      } else if (player.scoreVals.total === maxScore) {
+          winner = null; //Draw 
+      }
   });
+
+  return winner;
+}
+
+//Gameover button
+document.addEventListener('DOMContentLoaded', function() {
+  const gameOverBtn = document.createElement('gameOverBtn');
+  gameOverBtn.id = 'gameOverBtn';
+  gameOverBtn.textContent = 'Game Over';
+
+  gameOverBtn.addEventListener('click', async function() {
+    try {
+        const response = await fetch("http://localhost:6969/api/getPlayers");
+        const players = await response.json();
+
+        const winner = determineWinner(players);
+        const winnerMessage = winner ? `Winner: ${winner}` : "It's a draw!";
+        const playerScores = players.map(player => `${player.name}: ${player.scoreVals.total}`).join('\n');
+        const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}\n\n OK to close`;
+
+        await showConfirmation(confirmMessage);
+        
+    } catch (error) {
+        console.error("Error player data nun:", error);
+    }
+});
+
+  function showConfirmation(message) {
+    if (window.confirm(message)) {
+        console.log('Gameover confirmed. Closing game over dialog.');
+    } else {
+        console.log('Gameover canceled. Game over dialog remains open.');
+    }
+}
+
+  document.body.appendChild(gameOverBtn);
 });
 
 
