@@ -187,7 +187,7 @@ app.post("/logout", (req, res) => {
 
 //await logEveryoneOut(); //Serveren starter, alle logges ud...
 
-async function tempFunc(){
+async function tempFunc(){ //Giver 'Unexpected end of JSON input' en gang imellem
   await initPlayersJSON(); 
   setTimeout(async ()=>{
     await logEveryoneOut();
