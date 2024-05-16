@@ -3,20 +3,20 @@ html(lang="en")
   head
     title Waiting Lobby
     link(rel="stylesheet", href="/style/waitinglobby.css")
-    script.
-      async function updateScores(){
-          let playersTemp = await fetch("http://localhost:6969/api/getLoggedIn");
-          let players = await playersTemp.json();
+    //- script.
+    //-   async function updateScores(){
+    //-       let playersTemp = await fetch("http://localhost:6969/api/getLoggedIn");
+    //-       let players = await playersTemp.json();
 
-          let daList = document.querySelector("ul");
-          daList.innerHTML = "";
-          for(let player of players){
-            let tempLi = document.createElement("li");
-            tempLi.innerHTML = player.name + ": " + player.scoreVals.total;
-            daList.appendChild(tempLi);
-          }
-      }
-      setInterval(updateScores, 1000);
+    //-       let daList = document.querySelector("ul");
+    //-       daList.innerHTML = "";
+    //-       for(let player of players){
+    //-         let tempLi = document.createElement("li");
+    //-         tempLi.innerHTML = player.name + ": " + player.scoreVals.total;
+    //-         daList.appendChild(tempLi);
+    //-       }
+    //-   }
+    //-   setInterval(updateScores, 1000);
 
   body
     .container
@@ -30,7 +30,7 @@ html(lang="en")
             tbody
               each user in playersInGame
                 tr
-                  td= user.name
+                  td= user.name + ": " + user.scoreVals.total
         h2 Players in Queue
         ul#queueList
           if playersInQueue && playersInQueue.length > 0
