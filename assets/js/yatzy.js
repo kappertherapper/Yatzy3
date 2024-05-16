@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const winner = determineWinner(players);
         const winnerMessage = winner ? `Winner: ${winner}` : "It's a draw!";
         const playerScores = players.map(player => `${player.name}: ${player.scoreVals.total}`).join('\n');
-        const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}\n\n OK to close`;
+        const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}`;
 
         await showConfirmation(confirmMessage);
         
