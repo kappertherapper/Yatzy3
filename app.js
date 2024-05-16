@@ -189,7 +189,9 @@ app.post("/logout", (req, res) => {
 
 async function tempFunc(){
   await initPlayersJSON(); 
-  await logEveryoneOut();
+  setTimeout(async ()=>{
+    await logEveryoneOut();
+  }, 1000);
 }
 
 app.listen(
