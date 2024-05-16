@@ -4,22 +4,25 @@ html
     title Waiting Lobby
     link(rel="stylesheet", href="/style/waitinglobby.css")
   body
-    h1 Waiting Lobby
+    .container
+        .login-box
+          .logo
+            img(class="picture" src="images/logo-no-background.png", alt="Logo")
+          h1 Waiting Lobby
 
-    h2 Players in Game
-    table
-      tr
-        th Name
-        each user in playersInGame
-          tr
-            td= user.name
+          h2 Players in Game
+          table
+            tr
+              each user in playersInGame
+                tr
+                  td= user.name
 
-    h2 Players in Queue
-    ul#queueList
-      if playersInQueue && playersInQueue.length > 0
-        each player in playersInQueue
-          li= player
-      else
-        li No players in queue
+          h2 Players in Queue
+          ul#queueList
+            if playersInQueue && playersInQueue.length > 0
+              each player in playersInQueue
+                li= player
+            else
+              li No players in queue
 
     script(src="/path/to/timer.js")
