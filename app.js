@@ -14,7 +14,7 @@ app.use(express.json());
 let currentPlayerIndex = 0;
 let gameStarted = false;
 let queue = [];
-let playerInGame = [];
+
 
 
 
@@ -74,7 +74,6 @@ app.post("/auth", async (req, res) => {
         queue.push(name) // hvis spillet er startet, tilføjes spiller til en kø
         res.redirect('/waitinglobby');
       } else {
-        playerInGame.push(name);
         res.redirect('/lobby/' + name)
       }
     } else {
@@ -86,7 +85,6 @@ app.post("/auth", async (req, res) => {
           queue.push(name) // hvis spillet er startet, tilføjes spiller til en kø
           res.redirect('/waitinglobby');
         } else {
-          playerInGame.push(name)
           res.redirect('/lobby/' + name)
         }
       } else {
@@ -138,7 +136,7 @@ app.get("/login", (req, res) => {
 
 app.get("/waitinglobby", async (req, res) => {
   const name = req.session.name;
-  const users1 = playerInGame;
+  const users1 = await readLoggedIn();
   
   
   let playersInGame = [];
