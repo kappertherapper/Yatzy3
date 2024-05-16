@@ -1,7 +1,7 @@
 doctype html
-html
+html(lang="en")
   head
-    title Yatzy login
+    title Waiting Lobby
     link(rel="stylesheet", href="/style/waitinglobby.css")
     script.
       async function updateScores(){
@@ -22,11 +22,20 @@ html
     .container
       .login-box
         .logo
-          img(class="picture" src="images/logo-no-background.png", alt="Logo")
-        h1 Maks spillere / Spil igang:
-        ul
-            each user in users
-              li #{user.name}, #{user.scoreVals.total}
-      
-
-    footer(style="color: #fff; text-align: center; padding: 20px;") © 2024 Yatzy3
+          img.picture(src="images/logo-no-background.png", alt="Logo")
+        h1 Waiting Lobby
+        h2 Players in Game
+        .table-container
+          table
+            tbody
+              each user in playersInGame
+                tr
+                  td= user.name
+        h2 Players in Queue
+        ul#queueList
+          if playersInQueue && playersInQueue.length > 0
+            each player in playersInQueue
+              li= player
+          else
+            li No players in queue
+    script(src="/path/to/timer.js")
