@@ -92,6 +92,7 @@ app.post("/auth", async (req, res) => {
       }
     }
   } else if (count >= 5){
+    queue.push(name)
     res.redirect('/waitinglobby')
   }
 });
