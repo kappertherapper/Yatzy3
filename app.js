@@ -1,7 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import {logEveryoneOut, readLoggedIn, initPlayersJSON} from './playerDB.js'
-import {apiRouter, getGameStarted} from './routes/api.js'
+import {apiRouter} from './routes/api.js'
 import {loginRouter, getQueue} from './routes/login.js'
 
 const app = express();
@@ -11,14 +11,16 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static('./assets')) 
 app.use(express.json());
 
-app.use(apiRouter);
-app.use(loginRouter);
-
 app.use(session({
   secret: '2EFA4E9B-26FE-4D2A-94FA-D51827DA2F8B',
   saveUninitialized: true,
   resave: true
 }));
+
+
+app.use(apiRouter);
+app.use(loginRouter);
+
 
 app.get("/", (req, res) => {
   res.render('yatzy');

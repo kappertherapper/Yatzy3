@@ -1,5 +1,6 @@
 import express from 'express';
 import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, createPlayerObject, playerCount}  from '../playerDB.js'
+import {getGameStarted} from './api.js'
 
 const loginRouter = express.Router();
 loginRouter.use(express.urlencoded({extended: true}))
