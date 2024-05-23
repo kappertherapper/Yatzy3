@@ -4,9 +4,7 @@ import { readLoggedIn, updatePlayerScore, readFile} from '../playerDB.js'
 
 
 const apiRouter = express.Router();
-apiRouter.use(express.urlencoded({extended: true}))
-apiRouter.use(express.static('./assets')) 
-apiRouter.use(express.json());
+
 
 let currentPlayerIndex = 0;
 let gameStarted = false;

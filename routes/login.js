@@ -3,9 +3,7 @@ import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, createPlayerObjec
 import {getGameStarted} from './api.js'
 
 const loginRouter = express.Router();
-loginRouter.use(express.urlencoded({extended: true}))
-loginRouter.use(express.static('./assets')) 
-loginRouter.use(express.json());
+
 
 
 let queue = [];
