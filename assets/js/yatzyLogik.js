@@ -241,36 +241,6 @@ function blankDiceDisplay() {
   });
 }
 
-function gameDone() {
-  let inputs = document.querySelectorAll("input");
-
-  let isDone = true;
-
-  for (let input of inputs) {
-    if (
-      input.id != "totalInput" &&
-      input.id != "bonusInput" &&
-      input.id != "sumInput"
-    ) {
-      if (!input.disabled) isDone = false; //Hvis ét input ikke er disabled, så er spillet ikke færdig
-    }
-  }
-
-  let gameResult = document.getElementById("totalInput").value;
-  let newGame = false;
-  if (isDone) {
-    newGame = confirm(
-      "Spillet er færdig! Du fik " +
-        gameResult +
-        " point! \n" +
-        "Tryk på OK for at starte et nyt spil, Cancel for at lukke Yatzy."
-    );
-
-    if (!newGame) close();
-    else location.reload();
-  }
-}
-
 function unholdAllDice() {
   let dice = document.querySelectorAll(".diceImg");
   for (let die of dice) {
