@@ -1,5 +1,6 @@
 import express from 'express';
 import session from 'express-session';
+import fs from 'fs';
 import {addPlayer, loginAllowed, doesPlayerExist, logPlayerIn, logEveryoneOut, readLoggedIn, initPlayersJSON, createPlayerObject, playerCount, updatePlayerScore, readFile} from './playerDB.js'
 import roll from './api/rollAndCalc.js'
 
@@ -35,6 +36,22 @@ app.post("/api/startGame", (req, res) => {
 app.get("/api/gameStatus", (req, res) => {
   res.json({ gameStarted });
 });
+
+app.post("/api/endGame", (req, res) => {
+  gameStarted = false;
+
+const filePath = 'players.json';
+
+try {
+  fs.writeFileSync(filePath, '[]', 'utf8');
+  console.log('Players vanished');
+  res.json({ success: true });
+} catch (err) {
+  console.error('Error clearing file:', err);
+  res.status(500).json({ success: false, message: 'Player still there :(' });
+}
+});
+
 /*KODE TIL STARTKNAP SLUTTER HER*/ 
  
 
