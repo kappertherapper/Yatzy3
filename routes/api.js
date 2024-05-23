@@ -1,6 +1,7 @@
 import express from 'express';
 import roll from '../api/rollAndCalc.js'
 import { readLoggedIn, updatePlayerScore, readFile} from '../playerDB.js'
+import fs from 'fs';
 
 
 const apiRouter = express.Router();
@@ -89,6 +90,21 @@ apiRouter.post("/api/startGame", (req, res) => {
     currentPlayer = currentPlayer[currentPlayerIndex];
     res.send(currentPlayer);
   })
+
+  apiRouter.post("/api/endGame", (req, res) => {
+    gameStarted = false;
+  
+  const filePath = 'players.json';
+  
+  try {
+    fs.writeFileSync(filePath, '[]', 'utf8');
+    console.log('Players vanished');
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error clearing file:', err);
+    res.status(500).json({ success: false, message: 'Player still there :(' });
+  }
+  });
 
   function getGameStarted(){
     return gameStarted;
