@@ -212,39 +212,85 @@ function determineWinner(players) {
   return winner;
 }
 
-//Gameover button
+//Gameover (button)
 document.addEventListener('DOMContentLoaded', function() {
-  const gameOverBtn = document.createElement('gameOverBtn');
+  const gameOverBtn = document.createElement('gameOverBtn'); 
   gameOverBtn.id = 'gameOverBtn';
   gameOverBtn.textContent = 'Game Over';
 
   gameOverBtn.addEventListener('click', async function() {
-    try {
-        const response = await fetch("http://localhost:6969/api/getPlayers");
-        const players = await response.json();
-
-        const winner = determineWinner(players);
-        const winnerMessage = winner ? `Winner: ${winner}` : "It's a draw!";
-        const playerScores = players.map(player => `${player.name}: ${player.scoreVals.total}`).join('\n');
-        const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}`;
-
-        await showConfirmation(confirmMessage);
-        
-    } catch (error) {
-        console.error("Error player data nun:", error);
-    }
-});
-
-  function showConfirmation(message) {
-    if (window.confirm(message)) {
-        console.log('Gameover confirmed. Closing game over dialog.');
-    } else {
-        console.log('Gameover canceled. Game over dialog remains open.');
-    }
-}
+    gameDone(); // calling gameDone, when the button is clicked
+  });
 
   document.body.appendChild(gameOverBtn);
 });
+
+async function gameDone() {
+  let inputs = document.querySelectorAll("input");
+
+  let isDone = true;
+
+  for (let input of inputs) {
+    if (
+      input.id != "totalInput" &&
+      input.id != "bonusInput" &&
+      input.id != "sumInput"
+    ) {
+      if (!input.disabled) isDone = false; // If any input is not disabled, the game is not done
+    }
+  }
+
+  let gameResult = document.getElementById("totalInput").value;
+  let newGame = false;
+  if (isDone) {
+    try {
+      const response = await fetch("http://localhost:6969/api/getPlayers");
+      const players = await response.json();
+
+      const winner = determineWinner(players);
+      const winnerMessage = winner ? `Winner: ${winner}` : "It's a draw!";
+      const playerScores = players.map(player => `${player.name}: ${player.scoreVals.total}`).join('\n');
+      const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}`;
+
+      newGame = await showConfirmation(confirmMessage);
+
+      if (newGame) {
+        await fetch("http://localhost:6969/api/endGame", { //sets gameStarted = false & clears players.json
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        window.location.href = 'http://localhost:6969/login'; // redirect
+
+      } else {
+        await fetch("http://localhost:6969/api/endGame", { 
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        close();
+      }
+    } catch (error) {
+      console.error("Error fetching player data:", error);
+    }
+  }
+}
+
+function showConfirmation(message) {
+  return new Promise((resolve) => {
+    if (window.confirm(message)) {
+      console.log('Game over confirmed. Closing game over dialog.');
+      resolve(true); 
+    } else {
+      console.log('Game over canceled. Game over dialog remains open.');
+      resolve(false);
+    }
+  });
+}
 
 
 
