@@ -1,7 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import {logEveryoneOut, readLoggedIn, initPlayersJSON} from './playerDB.js'
-import {apiRouter} from './routes/api.js'
+import {apiRouter, getGameStarted} from './routes/api.js'
 import {loginRouter, getQueue} from './routes/login.js'
 
 const app = express();
@@ -17,6 +17,44 @@ app.use(session({
   resave: true
 }));
 
+//Middleware til login
+function checkLogin(req,res,next) {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    if (req.path !== '/login' && req.path !== '/auth') {
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  }
+}
+
+async function controlAccess(req, res, next) {
+  const users1 = await readLoggedIn();
+
+  let queue = getQueue()
+  let gameStarted = getGameStarted()
+
+  const playersInGame = users1.filter((e) => !queue.includes(e.name));
+  const playersInQueue = queue;
+
+  const userInGame = playersInGame.some(player => player.name === req.session.name);
+  const userInQueue = playersInQueue.includes(req.session.name);
+
+  if (userInGame && gameStarted && req.path !== '/' && !req.path.startsWith("/api")) {
+    return res.redirect('/');
+  } else if (userInQueue && gameStarted && req.path !== '/waitinglobby' && !req.path.startsWith("/api")) {
+    return res.redirect('/waitinglobby');
+  } else if (req.session.loggedIn && !gameStarted && req.path !== `/lobby/${req.session.name}` && !req.path.startsWith("/api")) {
+    return res.redirect(`/lobby/${req.session.name}`);
+  } else {
+    next();
+  }
+}
+
+app.use(checkLogin)
+app.use(controlAccess)
 
 app.use(apiRouter);
 app.use(loginRouter);
