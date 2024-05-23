@@ -42,7 +42,10 @@ btnRoll.addEventListener("click", async () => {
   });
   const userState = await scoresRaw.json();
 
-  updateDiceImgs(userState.dicevals);
+
+  runTimer(userState.dicevals); //Kører animation for terningkast
+
+  //updateDiceImgs(userState.dicevals); // gamle terning opdatering
 
   updateScores(userState);
 
@@ -52,6 +55,44 @@ btnRoll.addEventListener("click", async () => {
   }
   incrementTurn();
 });
+
+
+//TIMER FOR ANIMATION
+function runTimer(data) {
+  updateDiceImgsAnim(generateRandomDiceValues());
+  setTimeout(() => {
+    updateDiceImgsAnim(generateRandomDiceValues());
+    setTimeout(() => {
+      updateDiceImgsAnim(generateRandomDiceValues());
+      setTimeout(() => {
+        updateDiceImgsAnim(generateRandomDiceValues());
+        setTimeout(() => {
+          updateDiceImgs(data);
+        }, 150);
+      }, 150);
+      
+    }, 150); 
+  }, 150); 
+}
+
+//ANIMATION TILFÆLDIGE TAL
+function generateRandomDiceValues() {
+  const randomValues = [];
+  for (let i = 0; i < 5; i++) {
+    randomValues.push(Math.floor(Math.random() * 6) + 1);
+  }
+  return randomValues;
+}
+
+//FUNCTION TIL AT OPDATERE DE "TOMME" TERNINGER
+function updateDiceImgsAnim(dicevalues) {
+  let randomVal = generateRandomDiceValues();
+  document.querySelectorAll(".diceImg").forEach((dice, index) => {
+    if (!dice.classList.contains("held")) {
+      dice.src = `images/Dice-${dicevalues[index]}.png`;
+    }
+  });
+}
 
 function updateDiceImgs(diceValues){
   document.querySelectorAll(".diceImg").forEach((dice, index) => {
