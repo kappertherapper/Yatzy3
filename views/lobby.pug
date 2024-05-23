@@ -16,7 +16,9 @@ html
             daList.appendChild(tempLi);
           }
       }
+
       setInterval(updateLobby, 1000);
+
     link(rel="stylesheet", href="/style/timer.css")
     script(src="/js/timer.js" defer)
     script(src="/js/gameStart.js" defer)
@@ -33,4 +35,5 @@ html
           button#startButton Start
           form(action="/logout", method="POST")
             button(type="submit") Log ud
+            
           

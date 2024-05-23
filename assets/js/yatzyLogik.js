@@ -1,4 +1,17 @@
 
+const diceRollSound = new Audio('sounds/diceRollSound.mp3')
+const swipeSound = new Audio('sounds/swipeSound.mp3')
+const gameMusic = new Audio('sounds/GameMusic.mp3')
+const selectSound = new Audio('sounds/CashSound.mp3')
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  gameMusic.play()
+  gameMusic.loop = "loop"
+  gameMusic.volume = 0.3
+})
+
 function incrementTurn() {
   if (turnCounter < 3) {
     turnCounter++;
@@ -12,13 +25,16 @@ function incrementTurn() {
 
 document.querySelectorAll(".diceImg").forEach((dice) => {
   dice.addEventListener("click", function () {
+    swipeSound.play()
     // Skifter "held" klassen for at markere terningen som holdt/frigivet
     this.classList.toggle("held");
   });
 });
 
+
 // Opdater din btnRoll event listener
 btnRoll.addEventListener("click", async () => {
+  diceRollSound.play()
   if (turnCounter == 0) unholdAllDice(); // Hvis en person har valgt at holde de blanke dice, så unholdes de her
   // Opdaterer kun terninger, der ikke er holdt
 
@@ -155,7 +171,10 @@ input.forEach((element, index) => {
       element.id != "totalInput" &&
       element.id != "sumInput" &&
       element.id != "bonusInput"
-    ) {
+
+    ) 
+    {
+      selectSound.play()
       let numbertemp = document.getElementById("totalInput").value;
       if (Number(element.value) == 0) {
         //Hvis brugeren IKKE vil have nul, point, man kan blive nødt til, senere...
