@@ -24,9 +24,42 @@ app.use(session({
   resave: true
 }));
 
+//Middleware til login
+function checkLogin(req,res,next) {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    if (req.path !== '/login' && req.path !== '/auth') {
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  }
+}
+
+async function controlAccess(req, res, next) {
+  const users1 = await readLoggedIn();
+  const playersInGame = users1.filter((e) => !queue.includes(e.name));
+  const playersInQueue = queue;
+
+  const userInGame = playersInGame.some(player => player.name === req.session.name);
+  const userInQueue = playersInQueue.includes(req.session.name);
+
+  if (userInGame && gameStarted && req.path !== '/' && !req.path.startsWith('/api')) {
+    return res.redirect('/');
+  } else if (userInQueue && gameStarted && req.path !== '/waitinglobby' && !req.path.startsWith('/api')) {
+    return res.redirect('/waitinglobby');
+  } else if (req.session.loggedIn && !gameStarted && req.path !== `/lobby/${req.session.name}` && !req.path.startsWith('/api')) {
+    return res.redirect(`/lobby/${req.session.name}`);
+  } else {
+    next();
+  }
+}
+
+app.use(checkLogin)
+app.use(controlAccess)
+
 /*KODE TIL STARTKNAP*/
-
-
 app.post("/api/startGame", (req, res) => {
   gameStarted = true;
   res.json({ success: true });
@@ -42,7 +75,7 @@ app.get("/api/gameStatus", (req, res) => {
 let countdownStartTime;
 const countdownDuration = 120; // 2 minutter
 
-app.post("/api/startCountdown", (req, res) => {
+app.post("/api/startCountdown",  (req, res) => {
   if (!countdownStartTime) {
     countdownStartTime = Date.now();
   }
@@ -98,7 +131,7 @@ app.post("/auth", async (req, res) => {
   }
 });
 
-app.post("/api/roll", (req, res) => {
+app.post("/api/roll",  (req, res) => {
   let toBeRolled = req.body.list1;
   let userState = roll(toBeRolled);
   res.send(userState);
@@ -128,7 +161,7 @@ app.get("/api/allocPoints/:data", async (req, res)=>{
 
 
 
-app.get("/", (req, res) => {
+app.get("/",  (req, res) => {
   res.render('yatzy');
 });
 
@@ -136,7 +169,7 @@ app.get("/login", (req, res) => {
   res.render('login');
 });
 
-app.get("/waitinglobby", async (req, res) => {
+app.get("/waitinglobby",  async (req, res) => {
   const name = req.session.name;
   const users1 = await readLoggedIn();
 
@@ -145,13 +178,9 @@ app.get("/waitinglobby", async (req, res) => {
   
   res.render('waitinglobby', { name: name, playersInGame: playersInGame, playersInQueue: queue });
 })
-/*
-app.get("/lobby", (req, res) => {
-  res.render('lobby')
-}) 
-*/
 
-app.get("/lobby/:name", async (req, res) => {
+
+app.get("/lobby/:name",  async (req, res) => {
   const name = req.session.name;
   const users = await readLoggedIn();
   res.render('lobby', { name: name, users: users });
@@ -200,18 +229,16 @@ app.get('/gameover', async (req, res) => {
   res.render('yatzy', { winner, playerScores });
 });
 
-// app.post("/login)", (reg, res) => {
-//   const {username} = reg.body;
-
-// if (username == 'test') {
-//     req.session.username = username
-//     response.status(201).send(['login ok!']); //måske?
-// }
-
-// })
+//håndtering til ikke eksisterende routes
+app.use((req, res, next) => {
+  if (req.session.loggedIn) {
+    res.status(404).send('404 Not Found');
+  } else {
+    res.redirect('/login');
+  }
+});
 
 //await logEveryoneOut(); //Serveren starter, alle logges ud...
-
 async function tempFunc(){ //Giver 'Unexpected end of JSON input' en gang imellem
   await initPlayersJSON(); 
   setTimeout(async ()=>{
