@@ -33,20 +33,20 @@ function checkLogin(req,res,next) {
 async function controlAccess(req, res, next) {
   const users1 = await readLoggedIn();
 
-  if(req.path.startsWith('/api')) next(); //ignorer api kald
+  let queue = getQueue()
+  let gameStarted = getGameStarted()
 
-  let queue = getQueue();
-  let gameStarted = getGameStarted();
-  
   const playersInGame = users1.filter((e) => !queue.includes(e.name));
+  const playersInQueue = queue;
 
   const userInGame = playersInGame.some(player => player.name === req.session.name);
+  const userInQueue = playersInQueue.includes(req.session.name);
 
-  if (userInGame && gameStarted && req.path !== '/') {
+  if (userInGame && gameStarted && req.path !== '/' && !req.path.startsWith("/api")) {
     return res.redirect('/');
-  } else if (!userInGame && gameStarted && req.path !== '/waitinglobby' ) {
+  } else if (userInQueue && gameStarted && req.path !== '/waitinglobby' && !req.path.startsWith("/api")) {
     return res.redirect('/waitinglobby');
-  } else if (req.session.loggedIn && !gameStarted && req.path !== `/lobby/${req.session.name}`) {
+  } else if (req.session.loggedIn && !gameStarted && req.path !== `/lobby/${req.session.name}` && !req.path.startsWith("/api")) {
     return res.redirect(`/lobby/${req.session.name}`);
   } else {
     next();
@@ -55,7 +55,6 @@ async function controlAccess(req, res, next) {
 
 app.use(checkLogin)
 app.use(controlAccess)
-
 
 app.use(apiRouter);
 app.use(loginRouter);
