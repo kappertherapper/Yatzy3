@@ -27,15 +27,13 @@ paragraphTurn.id = "para-turn";
 paragraphTurn.innerText = "Turn: " + turnCounter;
 diceDiv.appendChild(paragraphTurn);
 
-
-
-for(let i = 0 ; i<3 ; i++){
-  diceDiv.appendChild(document.createElement("p"))
+for (let i = 0; i < 3; i++) {
+  diceDiv.appendChild(document.createElement("p"));
 }
 
 let btnRoll = document.createElement("button");
 btnRoll.innerText = "Roll";
-btnRoll.id="btnRoll";
+btnRoll.id = "btnRoll";
 btnRoll.style.marginLeft = "70%";
 diceDiv.appendChild(btnRoll);
 
@@ -87,8 +85,8 @@ for (let i = 1; i <= 15; i++) {
     inputSum.id = "sumInput";
     inputBonus.id = "bonusInput";
 
-    inputSum.value=0;
-    inputBonus.value=0;
+    inputSum.value = 0;
+    inputBonus.value = 0;
 
     let p1 = document.createElement("p");
     let p2 = document.createElement("p");
@@ -102,7 +100,7 @@ for (let i = 1; i <= 15; i++) {
   } else if (i == 15) {
     let inputTotal = document.createElement("input");
     inputTotal.id = "totalInput";
-    inputTotal.value="0";
+    inputTotal.value = "0";
 
     let p = document.createElement("p");
     p.textContent = "Total: ";
@@ -120,69 +118,70 @@ document.querySelectorAll("input").forEach((e) => {
 });
 
 //Scoreboard
-async function createScoreBoard(){
-let scoreboardDiv = document.createElement("div");
-scoreboardDiv.id = "scoreboard-div";
+async function createScoreBoard() {
+  let scoreboardDiv = document.createElement("div");
+  scoreboardDiv.id = "scoreboard-div";
 
-let scoreboardHeading = document.createElement("h2");
-scoreboardHeading.id = "scoreboard-heading";
-scoreboardHeading.textContent = "Scoreboard";
-scoreboardDiv.appendChild(scoreboardHeading);
-
-let players = await fetch("http://localhost:6969/api/getPlayers");
-players = await players.json();
-
-players.forEach((player) => {
-    let playerScore = document.createElement("p");
-    playerScore.id="playerParagraph";
-
-    playerScore.textContent = player.name + ": " + player.scoreVals.total;
-    scoreboardDiv.appendChild(playerScore);
-    scoreboardDiv.appendChild(document.createElement("br"));
-});
-
-document.body.appendChild(scoreboardDiv);
-}
-
-async function updateScoreBoard(){
-  let playerParas = document.querySelectorAll("#playerParagraph");
-  
+  let scoreboardHeading = document.createElement("h2");
+  scoreboardHeading.id = "scoreboard-heading";
+  scoreboardHeading.textContent = "Scoreboard";
+  scoreboardDiv.appendChild(scoreboardHeading);
 
   let players = await fetch("http://localhost:6969/api/getPlayers");
   players = await players.json();
 
-//console.log("TESt34234: " + JSON.stringify(players));
+  players.forEach((player) => {
+    let playerScore = document.createElement("p");
+    playerScore.id = "playerParagraph";
 
-players.forEach((player, index) => {
+    playerScore.textContent = player.name + ": " + player.scoreVals.total;
+    scoreboardDiv.appendChild(playerScore);
+    scoreboardDiv.appendChild(document.createElement("br"));
+  });
+
+  document.body.appendChild(scoreboardDiv);
+}
+
+async function updateScoreBoard() {
+  let playerParas = document.querySelectorAll("#playerParagraph");
+
+  let players = await fetch("http://localhost:6969/api/getPlayers");
+  players = await players.json();
+
+  //console.log("TESt34234: " + JSON.stringify(players));
+
+  players.forEach((player, index) => {
     let temp = playerParas[index];
     //console.log("TSET NY: " + JSON.stringify(playerParas));
     temp.textContent = player.name + ": " + player.scoreVals.total;
-});
+  });
 }
 
-
-document.addEventListener("DOMContentLoaded", async()=> await createScoreBoard());
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => await createScoreBoard()
+);
 
 setInterval(updateScoreBoard, 1000);
 
+//let div = document.createElement("div");
+//div.style.display ="inline";
+let h1 = document.createElement("h1");
+let h2 = document.createElement("h2");
+h1.className = "playerTurnHeader";
+h1.textContent = "PLAYER TURN";
+h2.className = "currentPlayerHeader";
 
-  //let div = document.createElement("div");
-  //div.style.display ="inline";
-  let h1 = document.createElement('h1');
-  let h2 = document.createElement("h2");
-  h1.className="playerTurnHeader";
-  h1.textContent= "PLAYER TURN";
-  h2.className="currentPlayerHeader";
- 
-  outerGrid.prepend(h2);
-  outerGrid.prepend(h1);
-  
-  //div.appendChild(h1);
+outerGrid.prepend(h2);
+outerGrid.prepend(h1);
 
+//div.appendChild(h1);
 
 async function updatePlayerShown() {
   let h2Temp = document.querySelector(".currentPlayerHeader");
-  let loggedInPlayers = await fetch("http://localhost:6969/api/getCurrentPlayer");
+  let loggedInPlayers = await fetch(
+    "http://localhost:6969/api/getCurrentPlayer"
+  );
   loggedInPlayers = await loggedInPlayers.json();
 
   h2.innerHTML = loggedInPlayers.name;
@@ -190,38 +189,49 @@ async function updatePlayerShown() {
 
 setInterval(updatePlayerShown, 500);
 
-
-
 function determineWinner(players) {
   if (players.length === 0) {
-      return null; 
+    return null;
   }
 
   let maxScore = -Infinity;
   let winner = null;
 
-  players.forEach(player => {
-      if (player.scoreVals.total > maxScore) {
-          maxScore = player.scoreVals.total;
-          winner = player.name;
-      } else if (player.scoreVals.total === maxScore) {
-          winner = null; //Draw 
-      }
+  players.forEach((player) => {
+    if (player.scoreVals.total > maxScore) {
+      maxScore = player.scoreVals.total;
+      winner = player.name;
+    } else if (player.scoreVals.total === maxScore) {
+      winner = null; //Draw
+    }
   });
 
   return winner;
 }
 
 //Gameover (button)
-document.addEventListener('DOMContentLoaded', function() {
-  const gameOverBtn = document.createElement('gameOverBtn'); 
-  gameOverBtn.id = 'gameOverBtn';
-  gameOverBtn.textContent = 'Game Over';
+document.addEventListener("DOMContentLoaded", function () {
+  const gameOverBtn = document.createElement("gameOverBtn");
+  gameOverBtn.id = "gameOverBtn";
+  gameOverBtn.textContent = "Game Over";
 
-  gameOverBtn.addEventListener('click', async function() {
-    gameDone(); // calling gameDone, when the button is clicked
+  gameOverBtn.addEventListener("click", async function () {
+    try {
+      const response = await fetch("http://localhost:6969/api/getPlayers");
+      const players = await response.json();
+
+      const winner = determineWinner(players);
+      const winnerMessage = winner ? `Winner: ${winner}` : "It's a draw!";
+      const playerScores = players
+        .map((player) => `${player.name}: ${player.scoreVals.total}`)
+        .join("\n");
+      const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}`;
+
+      await showConfirmation(confirmMessage);
+    } catch (error) {
+      console.error("Error player data nun:", error);
+    }
   });
-
   document.body.appendChild(gameOverBtn);
 });
 
@@ -249,27 +259,29 @@ async function gameDone() {
 
       const winner = determineWinner(players);
       const winnerMessage = winner ? `Winner: ${winner}` : "It's a draw!";
-      const playerScores = players.map(player => `${player.name}: ${player.scoreVals.total}`).join('\n');
+      const playerScores = players
+        .map((player) => `${player.name}: ${player.scoreVals.total}`)
+        .join("\n");
       const confirmMessage = `Game Over\n\n ${winnerMessage} \n\nFinal Scores:\n${playerScores}`;
 
       newGame = await showConfirmation(confirmMessage);
 
       if (newGame) {
-        await fetch("http://localhost:6969/api/endGame", { //sets gameStarted = false & clears players.json
-          method: 'POST', 
+        await fetch("http://localhost:6969/api/endGame", {
+          //sets gameStarted = false & clears players.json
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         });
 
-        window.location.href = 'http://localhost:6969/login'; // redirect
-
+        window.location.href = "http://localhost:6969/login"; // redirect
       } else {
-        await fetch("http://localhost:6969/api/endGame", { 
-          method: 'POST',
+        await fetch("http://localhost:6969/api/endGame", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         });
 
         close();
@@ -283,16 +295,11 @@ async function gameDone() {
 function showConfirmation(message) {
   return new Promise((resolve) => {
     if (window.confirm(message)) {
-      console.log('Game over confirmed. Closing game over dialog.');
-      resolve(true); 
+      console.log("Game over confirmed. Closing game over dialog.");
+      resolve(true);
     } else {
-      console.log('Game over canceled. Game over dialog remains open.');
+      console.log("Game over canceled. Game over dialog remains open.");
       resolve(false);
     }
   });
 }
-
-
-
-
-
