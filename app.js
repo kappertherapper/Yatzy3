@@ -33,20 +33,20 @@ function checkLogin(req,res,next) {
 async function controlAccess(req, res, next) {
   const users1 = await readLoggedIn();
 
+  if(req.path.startsWith('/api')) next(); //ignorer api kald
+
   let queue = getQueue();
   let gameStarted = getGameStarted();
   
   const playersInGame = users1.filter((e) => !queue.includes(e.name));
-  const playersInQueue = queue;
 
   const userInGame = playersInGame.some(player => player.name === req.session.name);
-  const userInQueue = playersInQueue.includes(req.session.name);
 
-  if (userInGame && gameStarted && req.path !== '/' && !req.path.startsWith('/api')) {
+  if (userInGame && gameStarted && req.path !== '/') {
     return res.redirect('/');
-  } else if (userInQueue && gameStarted && req.path !== '/waitinglobby' && !req.path.startsWith('/api')) {
+  } else if (!userInGame && gameStarted && req.path !== '/waitinglobby' ) {
     return res.redirect('/waitinglobby');
-  } else if (req.session.loggedIn && !gameStarted && req.path !== `/lobby/${req.session.name}` && !req.path.startsWith('/api')) {
+  } else if (req.session.loggedIn && !gameStarted && req.path !== `/lobby/${req.session.name}`) {
     return res.redirect(`/lobby/${req.session.name}`);
   } else {
     next();
