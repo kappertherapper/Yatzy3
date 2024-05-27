@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function() {
     return remainingTime;
   }
 
-
   function startCountdown() {
     fetch('/api/remainingTime')
       .then(response => response.json())
