@@ -1,24 +1,24 @@
-document.addEventListener("DOMContentLoaded", function() {
-  const startButton = document.getElementById('startButton');
+document.addEventListener("DOMContentLoaded", function () {
+  const startButton = document.getElementById("startButton");
 
   if (startButton) {
-    startButton.addEventListener('click', () => {
-      fetch('/api/startGame', { method: 'POST' })
-        .then(response => response.json())
-        .then(data => {
+    startButton.addEventListener("click", () => {
+      fetch("/api/startGame", { method: "POST" })
+        .then((response) => response.json())
+        .then((data) => {
           if (data.success) {
-            window.location.href = '/';
+            window.location.href = "/";
           }
         });
     });
   }
 
   function checkGameStatus() {
-    fetch('/api/gameStatus')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/api/gameStatus")
+      .then((response) => response.json())
+      .then((data) => {
         if (data.gameStarted) {
-          window.location.href = '/';
+          window.location.href = "/";
         }
       });
   }

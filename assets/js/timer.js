@@ -1,14 +1,16 @@
-document.addEventListener("DOMContentLoaded", function() {
-  const timerElement = document.getElementById('timer');
+document.addEventListener("DOMContentLoaded", function () {
+  const timerElement = document.getElementById("timer");
   let countdownInterval;
 
   // Formater tiden til mm:ss
   function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(remainingSeconds).padStart(2, "0")}`;
   }
-
 
   function updateTimer(remainingTime) {
     remainingTime--;
@@ -17,16 +19,16 @@ document.addEventListener("DOMContentLoaded", function() {
     // Et check om countdown er færdig
     if (remainingTime <= 0) {
       clearInterval(countdownInterval);
-      window.location.href = '/'; // Redirect '/' fordi yatzy er på endpoint '/'
+      window.location.href = "/"; // Redirect '/' fordi yatzy er på endpoint '/'
     }
 
     return remainingTime;
   }
 
   function startCountdown() {
-    fetch('/api/remainingTime')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/api/remainingTime")
+      .then((response) => response.json())
+      .then((data) => {
         let remainingTime = data.remainingTime;
 
         if (remainingTime > 0 && !countdownInterval) {
@@ -41,23 +43,23 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function checkPlayerCount() {
-    fetch('/api/playerCount')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/api/playerCount")
+      .then((response) => response.json())
+      .then((data) => {
         if (data.playerCount >= 2) {
           // Sørger for at countdownen er startet, hvis den ikke er startet
-          fetch('/api/startCountdown', { method: 'POST' });
+          fetch("/api/startCountdown", { method: "POST" });
           startCountdown();
         }
       });
   }
 
   function checkGameStatus() {
-    fetch('/api/gameStatus')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/api/gameStatus")
+      .then((response) => response.json())
+      .then((data) => {
         if (data.gameStarted) {
-          window.location.href = '/';
+          window.location.href = "/";
         }
       });
   }
@@ -67,6 +69,4 @@ document.addEventListener("DOMContentLoaded", function() {
   checkPlayerCount();
   setInterval(checkGameStatus, 5000);
   checkGameStatus();
-
- 
 });

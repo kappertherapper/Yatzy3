@@ -3,47 +3,47 @@ let diceSum = [0, 0, 0, 0, 0, 0];
 let scoreVals = {
   dicevals: [6, 6, 6, 6, 6],
   ones: -1,
-  twos:  -1,
-  threes:  -1,
-  fours:  -1,
-  fives:  -1,
-  sixes:  -1,
-  onePair:  -1,
-  twoPairs:  -1,
-  threeSame:  -1,
-  fourSame:  -1,
-  fullHouse:  -1,
-  smallStraight:  -1,
-  largeStraight:  -1,
-  chance:  -1,
-  yatzy:  -1
+  twos: -1,
+  threes: -1,
+  fours: -1,
+  fives: -1,
+  sixes: -1,
+  onePair: -1,
+  twoPairs: -1,
+  threeSame: -1,
+  fourSame: -1,
+  fullHouse: -1,
+  smallStraight: -1,
+  largeStraight: -1,
+  chance: -1,
+  yatzy: -1,
+};
+
+//holder styr på held terninger hos client
+function roll(toBeRolled) {
+  for (let i = 0; i < 5; i++) {
+    if (toBeRolled[i]) scoreVals.dicevals[i] = Math.ceil(Math.random() * 6);
   }
 
-function roll(toBeRolled){ //toBeRolled, holde styr på held terninger hos client
-    for(let i = 0 ;  i < 5 ; i++){
-        if(toBeRolled[i]) scoreVals.dicevals[i] = Math.ceil(Math.random() * 6);
-    }
-    
-    sumDice();
-    taxEvasion();
-    onePair();
-    twoPair();
-    threeSame();
-    fourSame();
-    fullHouse();
-    smallStraight();
-    largeStraight();
-    chance();
-    yatzy();
+  sumDice();
+  taxEvasion();
+  onePair();
+  twoPair();
+  threeSame();
+  fourSame();
+  fullHouse();
+  smallStraight();
+  largeStraight();
+  chance();
+  yatzy();
 
-    diceSum = [0, 0, 0, 0, 0, 0];
+  diceSum = [0, 0, 0, 0, 0, 0];
 
-    return scoreVals;
+  return scoreVals;
 }
 
 function sumDice() {
-  //Tæller frekvensen af terninge øjne
-  let values = scoreVals.dicevals;
+  let values = scoreVals.dicevals; //Tæller frekvensen af terninge øjne
   for (let i of values) {
     diceSum[i - 1]++;
   }
@@ -70,12 +70,12 @@ function twoPair() {
     }
   }
 
-  scoreVals.twoPairs=0;
-  if(maxPair1!=0 && maxPair2!=0) scoreVals.twoPairs = maxPair1 * 2 + maxPair2 * 2;
+  scoreVals.twoPairs = 0;
+  if (maxPair1 != 0 && maxPair2 != 0)
+    scoreVals.twoPairs = maxPair1 * 2 + maxPair2 * 2;
 }
 
 function threeSame() {
-
   scoreVals.threeSame = 0;
   for (let i = 0; i < 6; i++) {
     if (diceSum[i] > 2) scoreVals.threeSame = (i + 1) * 3;
@@ -83,7 +83,6 @@ function threeSame() {
 }
 
 function fourSame() {
-
   scoreVals.fourSame = 0;
   for (let i = 0; i < 6; i++) {
     if (diceSum[i] > 3) scoreVals.fourSame = (i + 1) * 4;
@@ -91,7 +90,6 @@ function fourSame() {
 }
 
 function yatzy() {
-
   scoreVals.yatzy = 0;
   for (let i = 0; i < 6; i++) {
     if (diceSum[i] > 4) scoreVals.yatzy = (i + 1) * 5;
@@ -99,16 +97,15 @@ function yatzy() {
 }
 
 function taxEvasion() {
-    scoreVals.ones = diceSum[0]*1;
-    scoreVals.twos = diceSum[1]*2;
-    scoreVals.threes = diceSum[2]*3;
-    scoreVals.fours = diceSum[3]*4;
-    scoreVals.fives = diceSum[4]*5;
-    scoreVals.sixes = diceSum[5]*6;
+  scoreVals.ones = diceSum[0] * 1;
+  scoreVals.twos = diceSum[1] * 2;
+  scoreVals.threes = diceSum[2] * 3;
+  scoreVals.fours = diceSum[3] * 4;
+  scoreVals.fives = diceSum[4] * 5;
+  scoreVals.sixes = diceSum[5] * 6;
 }
 
 function chance() {
-
   let sumChance = 0;
   for (let i = 0; i < 6; i++) {
     sumChance += diceSum[i] * (i + 1);
@@ -162,8 +159,8 @@ function largeStraight() {
 
   scoreVals.largeStraight = 0;
   if (temp) {
-    scoreVals.largeStraight= 20;
+    scoreVals.largeStraight = 20;
   }
 }
 
-export default roll
+export default roll;

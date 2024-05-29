@@ -7,6 +7,7 @@ import { loginRouter, getQueue } from "./routes/login.js";
 const app = express();
 app.set("view engine", "pug");
 
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./assets"));
 app.use(express.json());

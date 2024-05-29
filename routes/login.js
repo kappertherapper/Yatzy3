@@ -10,8 +10,8 @@ import {
 import { getGameStarted } from "./api.js";
 
 const loginRouter = express.Router();
-
 let queue = [];
+
 
 loginRouter.post("/auth", async (req, res) => {
   const name = req.body.name;

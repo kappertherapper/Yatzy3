@@ -1,16 +1,13 @@
+const diceRollSound = new Audio("sounds/diceRollSound.mp3");
+const swipeSound = new Audio("sounds/swipeSound.mp3");
+const gameMusic = new Audio("sounds/GameMusic.mp3");
+const selectSound = new Audio("sounds/CashSound.mp3");
 
-const diceRollSound = new Audio('sounds/diceRollSound.mp3')
-const swipeSound = new Audio('sounds/swipeSound.mp3')
-const gameMusic = new Audio('sounds/GameMusic.mp3')
-const selectSound = new Audio('sounds/CashSound.mp3')
-
-
-
-document.addEventListener("DOMContentLoaded", function() {
-  gameMusic.play()
-  gameMusic.loop = "loop"
-  gameMusic.volume = 0.3
-})
+document.addEventListener("DOMContentLoaded", function () {
+  gameMusic.play();
+  gameMusic.loop = "loop";
+  gameMusic.volume = 0.3;
+});
 
 function incrementTurn() {
   if (turnCounter < 3) {
@@ -25,39 +22,37 @@ function incrementTurn() {
 
 document.querySelectorAll(".diceImg").forEach((dice) => {
   dice.addEventListener("click", function () {
-    swipeSound.play()
+    swipeSound.play();
     // Skifter "held" klassen for at markere terningen som holdt/frigivet
     this.classList.toggle("held");
   });
 });
 
-
 // Opdater din btnRoll event listener
 btnRoll.addEventListener("click", async () => {
-  diceRollSound.play()
+  diceRollSound.play();
   if (turnCounter == 0) unholdAllDice(); // Hvis en person har valgt at holde de blanke dice, så unholdes de her
   // Opdaterer kun terninger, der ikke er holdt
 
   const toBeRolled = [];
 
   document.querySelectorAll(".diceImg").forEach((dice, index) => {
-   toBeRolled[index] = !dice.classList.contains("held");
+    toBeRolled[index] = !dice.classList.contains("held");
   });
   //displayScores();
 
-  const sendData = {list1: toBeRolled};
+  const sendData = { list1: toBeRolled };
   //console.log("TSET: " + JSON.stringify(sendData));
   //console.log("TEST2: " + sendData.list1);
 
-  const scoresRaw = await fetch('http://localhost:6969/api/roll', {
-    method: 'POST',
+  const scoresRaw = await fetch("http://localhost:6969/api/roll", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(sendData)
+    body: JSON.stringify(sendData),
   });
   const userState = await scoresRaw.json();
-
 
   runTimer(userState.dicevals); //Kører animation for terningkast
 
@@ -72,7 +67,6 @@ btnRoll.addEventListener("click", async () => {
   incrementTurn();
 });
 
-
 //TIMER FOR ANIMATION
 function runTimer(data) {
   updateDiceImgsAnim(generateRandomDiceValues());
@@ -86,9 +80,8 @@ function runTimer(data) {
           updateDiceImgs(data);
         }, 150);
       }, 150);
-      
-    }, 150); 
-  }, 150); 
+    }, 150);
+  }, 150);
 }
 
 //ANIMATION TILFÆLDIGE TAL
@@ -110,7 +103,7 @@ function updateDiceImgsAnim(dicevalues) {
   });
 }
 
-function updateDiceImgs(diceValues){
+function updateDiceImgs(diceValues) {
   document.querySelectorAll(".diceImg").forEach((dice, index) => {
     if (!dice.classList.contains("held")) {
       dice.src = `images/Dice-${diceValues[index]}.png`;
@@ -118,47 +111,45 @@ function updateDiceImgs(diceValues){
   });
 }
 
-function updateScoresOnAlloc(userState){
-    let scoreServer = Object.values(userState);
-
-    document.querySelectorAll(".inputs").forEach((input1, index)=>{
-          let newVal = scoreServer[index+1];
-          input1.value = newVal==-1? 0: newVal;  //plus 2 er fra scorCalc's userState
-          
-          if(newVal!=-1) {
-            input1.disabled=true;
-            input1.style.backgroundColor="lightgrey";
-          }
-    });
-
-    let totalInput = document.querySelector("#totalInput");
-    totalInput.value = scoreServer[16];
-
-
-}
-
-function updateScores(userState){
+function updateScoresOnAlloc(userState) {
   let scoreServer = Object.values(userState);
 
-  document.querySelectorAll(".inputs").forEach((input1, index)=>{
-        if(!input1.disabled){
-          input1.value = scoreServer[index+1];
-        }
+  document.querySelectorAll(".inputs").forEach((input1, index) => {
+    let newVal = scoreServer[index + 1];
+    input1.value = newVal == -1 ? 0 : newVal; //plus 2 er fra scorCalc's userState
+
+    if (newVal != -1) {
+      input1.disabled = true;
+      input1.style.backgroundColor = "lightgrey";
+    }
+  });
+
+  let totalInput = document.querySelector("#totalInput");
+  totalInput.value = scoreServer[16];
+}
+
+function updateScores(userState) {
+  let scoreServer = Object.values(userState);
+
+  document.querySelectorAll(".inputs").forEach((input1, index) => {
+    if (!input1.disabled) {
+      input1.value = scoreServer[index + 1];
+    }
   });
 }
 
-function resetScores(){
-  document.querySelectorAll(".inputs").forEach((input1, index)=>{
-    if(!input1.disabled) input1.value= 0;
-});
+function resetScores() {
+  document.querySelectorAll(".inputs").forEach((input1, index) => {
+    if (!input1.disabled) input1.value = 0;
+  });
 }
 
-function totalReset(){
-  document.querySelectorAll(".inputs").forEach((input1, index)=>{
-    input1.disabled ="";
-    input1.value=0;
-    input1.style.backgroundColor="white";
-  })
+function totalReset() {
+  document.querySelectorAll(".inputs").forEach((input1, index) => {
+    input1.disabled = "";
+    input1.value = 0;
+    input1.style.backgroundColor = "white";
+  });
 
   let totalInput = document.querySelector("#totalInput");
   totalInput.value = 0;
@@ -171,10 +162,8 @@ input.forEach((element, index) => {
       element.id != "totalInput" &&
       element.id != "sumInput" &&
       element.id != "bonusInput"
-
-    ) 
-    {
-      selectSound.play()
+    ) {
+      selectSound.play();
       let numbertemp = document.getElementById("totalInput").value;
       if (Number(element.value) == 0) {
         //Hvis brugeren IKKE vil have nul, point, man kan blive nødt til, senere...
@@ -190,7 +179,8 @@ input.forEach((element, index) => {
       turnCounter = 0;
       paragraphTurn.innerText = "Turn: " + turnCounter;
 
-      let translationTable = ["ones",
+      let translationTable = [
+        "ones",
         "twos",
         "threes",
         "fours",
@@ -204,21 +194,22 @@ input.forEach((element, index) => {
         "smallStraight",
         "largeStraight",
         "chance",
-        "yatzy"];
+        "yatzy",
+      ];
 
-        let totalVal = document.getElementById("totalInput").value;
+      let totalVal = document.getElementById("totalInput").value;
 
-        //console.log("Test45; " + index + " " + translationTable[index]);
+      //console.log("Test45; " + index + " " + translationTable[index]);
 
-      let tempCrap = await fetch(`http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`);
+      let tempCrap = await fetch(
+        `http://localhost:6969/api/allocPoints/${element.value}-${translationTable[index]}-${totalVal}`
+      );
 
       let nextPlayerScores = await tempCrap.json();
 
       console.log("HELT NY TEST: " + JSON.stringify(nextPlayerScores));
       totalReset();
       updateScoresOnAlloc(nextPlayerScores);
-
-      
 
       //resetScores();
       blankDiceDisplay();

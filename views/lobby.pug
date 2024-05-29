@@ -4,13 +4,13 @@ html
     title Lobby Side
     link(rel="stylesheet", href="/style/lobby.css")
     script.
-      async function updateLobby(){
+      async function updateLobby() {
           let playersTemp = await fetch("http://localhost:6969/api/getLoggedIn");
           let players = await playersTemp.json();
-
           let daList = document.querySelector("ul");
           daList.innerHTML = "";
-          for(let player of players){
+
+          for (let player of players) {
             let tempLi = document.createElement("li");
             tempLi.innerHTML = player.name;
             daList.appendChild(tempLi);
